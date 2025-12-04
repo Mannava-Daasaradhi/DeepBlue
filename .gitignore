@@ -1,0 +1,28 @@
+# --- Dependencies (Too big to commit) ---
+node_modules/
+venv/
+.venv/
+env/
+
+# --- Python Compiled Files (Junk) ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# --- Build Outputs (Generated automatically) ---
+dist/
+build/
+
+# --- SECURITY (Never commit secrets!) ---
+.env
+.env.local
+.env.*.local
+
+# --- OS & Editor Configs (Junk) ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+npm-debug.log*
