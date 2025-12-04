@@ -62,3 +62,10 @@ async def analyze_code(request: CodeRequest):
         "ai_feedback": ai_feedback,
         "haptic_feedback": should_vibrate
     }
+import json
+
+@app.get("/missions")
+def get_missions():
+    # In real life, fetch from DB. For now, load JSON.
+    with open("app/data/missions.json", "r") as f:
+        return json.load(f)

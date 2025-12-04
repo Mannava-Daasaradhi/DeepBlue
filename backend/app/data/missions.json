@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "title": "Operation: Loop-De-Loop",
+    "difficulty": "Easy",
+    "description": "The station's gravity generator is stuck! Write a loop to reset the 10 gravity stabilizers.",
+    "roles": {
+      "architect": "Determine how many times the loop must run.",
+      "translator": "Write the 'for' loop syntax in Python.",
+      "debugger": "Ensure the loop variable starts at 0."
+    },
+    "starter_code": "def fix_gravity():\n    # Write your loop here\n    pass",
+    "solution_keywords": ["for", "range", "10"]
+  },
+  {
+    "id": 2,
+    "title": "The Conditional Gate",
+    "difficulty": "Medium",
+    "description": "Aliens are approaching. Open the gate ONLY if the ship_id is even.",
+    "roles": {
+      "architect": "Logic: Modulo operator (%) is needed.",
+      "translator": "Syntax: if (id % 2 == 0):",
+      "debugger": "Check for indentation errors."
+    },
+    "starter_code": "def check_ship(ship_id):\n    # Add logic check\n    return False",
+    "solution_keywords": ["if", "%", "=="]
+  }
+]
