@@ -1,28 +1,170 @@
 [
   {
-    "id": 1,
-    "title": "Operation: Loop-De-Loop",
+    "id": 401,
+    "title": "Raid: The Broken Beacon",
     "difficulty": "Easy",
-    "description": "The station's gravity generator is stuck! Write a loop to reset the 10 gravity stabilizers.",
+    "description": "A distress signal is coming in two fragments. We need to combine them into one complete message to locate the survivors.",
+    "correct_syntax": "full_message = part_a + part_b",
     "roles": {
-      "architect": "Determine how many times the loop must run.",
-      "translator": "Write the 'for' loop syntax in Python.",
-      "debugger": "Ensure the loop variable starts at 0."
+      "architect": "Logic Task: We have two separate pieces of text. We need to 'glue' them together, placing the second piece directly after the first.",
+      "translator": "Syntax Task: In Python, you can 'add' strings together using the plus operator (+). Assign the result to 'full_message'.",
+      "debugger": "Check: Ensure they are adding the variables, not the strings 'part_a' + 'part_b' (which would literally spell that out)."
     },
-    "starter_code": "def fix_gravity():\n    # Write your loop here\n    pass",
-    "solution_keywords": ["for", "range", "10"]
+    "starter_code": "def repair_signal(part_a, part_b):\n    # Combine the strings\n    return full_message",
+    "solution_keywords": ["+", "part_a", "part_b"]
   },
   {
-    "id": 2,
-    "title": "The Conditional Gate",
+    "id": 402,
+    "title": "Raid: Coordinates Encryption",
     "difficulty": "Medium",
-    "description": "Aliens are approaching. Open the gate ONLY if the ship_id is even.",
+    "description": "The navigation computer is glitching. It gave us 'X:Earth:Y'. We only need the planet name in the middle (indices 2 to 7). Extract it!",
+    "correct_syntax": "planet = raw_data[2:7]",
     "roles": {
-      "architect": "Logic: Modulo operator (%) is needed.",
-      "translator": "Syntax: if (id % 2 == 0):",
-      "debugger": "Check for indentation errors."
+      "architect": "Logic Task: We need a specific slice of the text. We want the characters starting at position 2, up to (but not including) position 7.",
+      "translator": "Syntax Task: Use String Slicing syntax: variable[start:end]. Remember the colon inside the square brackets.",
+      "debugger": "Check: Verify the indices. Is it [2:7]? Remember that Python slicing stops BEFORE the end index."
     },
-    "starter_code": "def check_ship(ship_id):\n    # Add logic check\n    return False",
-    "solution_keywords": ["if", "%", "=="]
+    "starter_code": "def get_planet(raw_data):\n    # Extract 'Earth'\n    return planet",
+    "solution_keywords": ["[2:7]", "raw_data"]
+  },
+  {
+    "id": 403,
+    "title": "Raid: The Shouting Alien",
+    "difficulty": "Easy",
+    "description": "The universal translator is stuck on 'SHOUT MODE'. The alien diplomat is offended. Convert their message to lowercase immediately!",
+    "correct_syntax": "whisper = loud_message.lower()",
+    "roles": {
+      "architect": "Logic Task: We have a text input. We need to apply a transformation that changes every character to its 'small' version.",
+      "translator": "Syntax Task: Use the string method .lower(). Don't forget the parentheses () at the end of the method call!",
+      "debugger": "Check: Did they forget the parentheses? 'variable.lower' is the function itself, 'variable.lower()' runs it."
+    },
+    "starter_code": "def calm_down(loud_message):\n    # Make it lowercase\n    return whisper",
+    "solution_keywords": [".lower()", "loud_message"]
+  },
+  {
+    "id": 501,
+    "title": "Raid: Shield Modulation",
+    "difficulty": "Medium",
+    "description": "We are under fire! Activate the shields ONLY if we have enough power (> 20%) AND an enemy is actually locked on.",
+    "correct_syntax": "if power > 20 and enemy_locked:\n    activate_shields()",
+    "roles": {
+      "architect": "Logic Task: This is a Compound Condition. Two things must be true simultaneously for the action to happen.",
+      "translator": "Syntax Task: Use the 'and' keyword to join the two conditions inside the if-statement.",
+      "debugger": "Check: Ensure they didn't use '&' or '&&' (Python uses the English word 'and')."
+    },
+    "starter_code": "def auto_defense(power, enemy_locked):\n    # Add dual check\n    pass",
+    "solution_keywords": ["if", "and", ">", "20"]
+  },
+  {
+    "id": 502,
+    "title": "Raid: Evasive Manuevers",
+    "difficulty": "Medium",
+    "description": "Asteroid field ahead! Fire the side thrusters if there is an obstacle on the LEFT or an obstacle on the RIGHT.",
+    "correct_syntax": "if obstacle_left or obstacle_right:\n    fire_thrusters()",
+    "roles": {
+      "architect": "Logic Task: We need to act if EITHER condition is met. It doesn't matter which one, as long as one is true.",
+      "translator": "Syntax Task: Use the 'or' keyword to join the conditions.",
+      "debugger": "Check: Ensure they didn't use '|' or '||' (Python uses the English word 'or')."
+    },
+    "starter_code": "def dodge(obstacle_left, obstacle_right):\n    # Check either side\n    pass",
+    "solution_keywords": ["if", "or", ":"]
+  },
+  {
+    "id": 503,
+    "title": "Raid: Manual Override",
+    "difficulty": "Hard",
+    "description": "The AI is refusing to open the bay doors. We need to force them open, but ONLY if the 'Lockdown' mode is NOT active.",
+    "correct_syntax": "if not lockdown_active:\n    force_open()",
+    "roles": {
+      "architect": "Logic Task: We need to check for the ABSENCE of a condition. We want the action to happen only when the flag is False.",
+      "translator": "Syntax Task: Use the 'not' keyword before the boolean variable.",
+      "debugger": "Check: Make sure 'not' is placed before the variable name (e.g. 'if not variable:')."
+    },
+    "starter_code": "def access_bay(lockdown_active):\n    # Check for safety\n    pass",
+    "solution_keywords": ["if", "not", ":"]
+  },
+  {
+    "id": 601,
+    "title": "Raid: Reactor Leak",
+    "difficulty": "Hard",
+    "description": "The reactor is leaking radiation! Keep pumping coolant into the core AS LONG AS the radiation level is above 500.",
+    "correct_syntax": "while radiation > 500:\n    pump_coolant()",
+    "roles": {
+      "architect": "Logic Task: We don't know how many times we need to pump. We just need to keep doing it UNTIL the condition is safe. This requires a 'While' loop.",
+      "translator": "Syntax Task: Use a 'while' loop. The condition is 'radiation > 500'.",
+      "debugger": "Check: Warn them about infinite loops! (Though in this game simulation, the system handles the exit)."
+    },
+    "starter_code": "def stabilize_core(radiation):\n    # Keep pumping while dangerous\n    pass",
+    "solution_keywords": ["while", ">", "500", ":"]
+  },
+  {
+    "id": 602,
+    "title": "Raid: The Hacking Tool",
+    "difficulty": "Medium",
+    "description": "We are brute-forcing a door code. The system says: Keep trying random codes while the status is 'LOCKED'.",
+    "correct_syntax": "while status == 'LOCKED':\n    try_code()",
+    "roles": {
+      "architect": "Logic Task: Continue repeating the action as long as the state remains 'LOCKED'. Stop once it changes.",
+      "translator": "Syntax Task: Use 'while'. Remember to compare the string using double equals '=='.",
+      "debugger": "Check: Ensure 'LOCKED' is in quotes."
+    },
+    "starter_code": "def hack_door(status):\n    # Brute force loop\n    pass",
+    "solution_keywords": ["while", "==", "'LOCKED'"]
+  },
+  {
+    "id": 603,
+    "title": "Raid: Launch Countdown",
+    "difficulty": "Easy",
+    "description": "T-Minus 10 seconds! We need to print every number from 10 down to 1 to synchronize the fleet launch.",
+    "correct_syntax": "for t in range(10, 0, -1):\n    print(t)",
+    "roles": {
+      "architect": "Logic Task: We need a loop that counts BACKWARDS. It starts at 10 and stops before 0.",
+      "translator": "Syntax Task: Use range(start, stop, step). To count down, the step must be negative (-1). range(10, 0, -1).",
+      "debugger": "Check: Did they set the stop value to 0? (If they set it to 1, the loop will stop at 2)."
+    },
+    "starter_code": "def start_countdown():\n    # Count down from 10\n    pass",
+    "solution_keywords": ["range", "10", "0", "-1"]
+  },
+  {
+    "id": 701,
+    "title": "Raid: Trash Compactor",
+    "difficulty": "Medium",
+    "description": "The cargo hold is full of space junk. We need to remove the last item added to the 'junk_pile' list to make room.",
+    "correct_syntax": "junk_pile.pop()",
+    "roles": {
+      "architect": "Logic Task: We need to remove an item from the END of the collection. We don't need to know what it is, just get rid of it.",
+      "translator": "Syntax Task: Use the list method .pop(). If you leave the parentheses empty, it defaults to the last item.",
+      "debugger": "Check: Ensure they are calling it as a function .pop(), not just referencing the property .pop"
+    },
+    "starter_code": "def clear_space(junk_pile):\n    # Remove the last item\n    pass",
+    "solution_keywords": [".pop()", "junk_pile"]
+  },
+  {
+    "id": 702,
+    "title": "Raid: Priority Sorting",
+    "difficulty": "Medium",
+    "description": "Our targets are out of order! Sort the 'targets' list alphabetically so we can focus fire on the Alpha threats first.",
+    "correct_syntax": "targets.sort()",
+    "roles": {
+      "architect": "Logic Task: We need to re-arrange the collection into a specific order (A-Z). This modifies the list in place.",
+      "translator": "Syntax Task: Use the list method .sort().",
+      "debugger": "Check: Common mistake is writing 'targets = targets.sort()'. In Python, .sort() returns None! Just call it."
+    },
+    "starter_code": "def organize_attack(targets):\n    # Sort the list\n    return targets",
+    "solution_keywords": [".sort()", "targets"]
+  },
+  {
+    "id": 703,
+    "title": "Raid: The Headcount",
+    "difficulty": "Easy",
+    "description": "We lost contact with Squad B. Count exactly how many soldiers are left in the 'survivors' list so we can send enough rescue pods.",
+    "correct_syntax": "pod_count = len(survivors)",
+    "roles": {
+      "architect": "Logic Task: We need to find the total Size/Length of the collection.",
+      "translator": "Syntax Task: Use the built-in function len(). Pass the list inside the parentheses.",
+      "debugger": "Check: Ensure they wrap the list in the function: len(list_name)."
+    },
+    "starter_code": "def plan_rescue(survivors):\n    # Get the number of people\n    return pod_count",
+    "solution_keywords": ["len", "survivors"]
   }
 ]
