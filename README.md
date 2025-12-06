@@ -149,20 +149,25 @@ Open Missions Tab to solve logic puzzles and coding raids.
 📁 Project Structure
 deepblue/
 ├── docker-compose.yml
+│
 ├── backend/
 │   ├── app/
-│   │   ├── data/             # Missions JSON
+│   │   ├── data/               # Missions JSON
 │   │   ├── engine/
-│   │   │   ├── rag_agent.py  # LangChain + Gemini Agent
-│   │   │   └── ast_parser.py # AST → 3D Node Parser
-│   ├── main.py               # FastAPI entry point
+│   │   │   ├── rag_agent.py    # LangChain + Gemini Agent
+│   │   │   └── ast_parser.py   # AST → 3D Node Parser
+│   │
+│   ├── main.py                 # FastAPI entry point
 │   ├── Dockerfile
 │   └── requirements.txt
+│
 └── frontend/
     ├── src/
-    │   ├── components/       # UI Elements
-    │   ├── three-scene/      # 3D Visualizer
+    │   ├── components/         # UI Elements
+    │   ├── three-scene/        # 3D Visualizer
     │   ├── App.jsx
     │   └── main.jsx
+    │
     ├── Dockerfile
     └── tailwind.config.js
+
