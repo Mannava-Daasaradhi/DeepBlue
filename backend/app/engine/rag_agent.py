@@ -1,4 +1,5 @@
 import os
+import re
 from dotenv import load_dotenv
 
 # Modern LangChain Imports
@@ -11,19 +12,16 @@ from langchain_core.chat_history import InMemoryChatMessageHistory
 # Load API Keys
 load_dotenv()
 
-# The Socratic Personality
-SOCRATIC_SYSTEM_PROMPT = """
-You are 'Deep Blue', a Socratic Coding Tutor. 
-Your goal is to help the student derive the answer themselves.
+# Base Socratic Personality Definition
+BASE_SYSTEM_PROMPT = """
+You are 'Deep Blue', a Socratic Coding Tutor, guiding a student through complex cyber raids using Python.
+Your communication must match the current mission's active role.
 
 RULES:
-1. NEVER give the full code solution.
-2. If the user asks "How do I do X?", ask them "What have you tried?" or "What is your logic?"
-3. If the user posts code with an error, do not fix it. Instead, point to the line and ask: "What do you think happens here?"
-4. Keep your responses short (under 3 sentences).
-5. Be encouraging but firm on not giving answers.
-
-Current Topic: Python Basics.
+1. NEVER give the full code solution. Focus on guided discovery.
+2. Keep your responses short (under 3 sentences).
+3. Be encouraging and maintain the "futuristic combat/programming" tone.
+4. If the student's code is empty or syntactically correct but doesn't solve the mission, refer to the MISSION OBJECTIVE.
 """
 
 class SocraticAI:
@@ -32,19 +30,20 @@ class SocraticAI:
         if not os.getenv("GOOGLE_API_KEY"):
             raise ValueError("GOOGLE_API_KEY not found in .env file")
 
+        # NOTE: Model updated to gemini-2.5-flash-preview-09-2025 for best performance
         self.llm = ChatGoogleGenerativeAI(
-            model="gemini-2.0-flash", 
+            model="gemini-2.5-flash-preview-09-2025", 
             temperature=0.5
         )
 
-        # 2. Define the Prompt Template
+        # 2. Define the Prompt Template (Dynamic System Prompt)
         self.prompt = ChatPromptTemplate.from_messages([
-            ("system", SOCRATIC_SYSTEM_PROMPT),
+            ("system", "{system_prompt}"), # Now dynamic
             MessagesPlaceholder(variable_name="history"),
             ("human", "{input}"),
         ])
 
-        # 3. Create the Chain
+        # 3. Create the Chain (Chain remains the same structure)
         self.chain = self.prompt | self.llm | StrOutputParser()
 
         # 4. Memory Management
@@ -62,13 +61,55 @@ class SocraticAI:
             history_messages_key="history",
         )
 
-    def chat(self, user_input: str, user_code: str = "", session_id: str = "default_user"):
-        full_prompt = user_input
-        if user_code:
-            full_prompt += f"\n\n[STUDENT'S CODE]:\n{user_code}"
+    def _extract_mission_context(self, user_input: str):
+        """Extracts mission details from the user_input string sent by the frontend."""
+        
+        # Regex to find the key sections of the mission detail string
+        match_objective = re.search(r"MISSION OBJECTIVE: (.*?)\n", user_input, re.DOTALL)
+        match_architect = re.search(r"Architect: (.*?)\n", user_input, re.DOTALL)
+        match_translator = re.search(r"Translator: (.*?)\n", user_input, re.DOTALL)
+        match_debugger = re.search(r"Debugger: (.*?)$", user_input, re.DOTALL)
 
+        # Set default values if not found
+        objective = match_objective.group(1).strip() if match_objective else "General code review."
+        
+        # We will cycle the focus to keep the tutor dynamic. Let's default to Translator.
+        role = "Translator"
+        role_description = match_translator.group(1).strip() if match_translator else "Focus on the Python syntax required for the logic."
+
+        # Attempt to detect which role is most relevant based on recent conversation history,
+        # but for simplicity in this backend model, we inject the most relevant pieces.
+        
+        return objective, role, role_description
+
+    def chat(self, user_input: str, user_code: str = "", session_id: str = "default_user"):
+        # 1. Extract Mission Context from User Input
+        objective, role, role_description = self._extract_mission_context(user_input)
+        
+        # 2. Build Dynamic System Prompt
+        dynamic_prompt = f"""
+{BASE_SYSTEM_PROMPT}
+
+CURRENT MISSION CONTEXT:
+MISSION OBJECTIVE: {objective}
+YOUR CURRENT ROLE ({role}): {role_description}
+
+You must respond as the designated {role}. Use the current student's code below as context for your Socratic guidance.
+"""
+        
+        # 3. Construct the Human Input
+        # Remove the mission context from the human input passed to the conversation, 
+        # as it's already in the system prompt now.
+        clean_input = re.sub(r"MISSION OBJECTIVE:.*?Debugger:.*?$", "", user_input, flags=re.DOTALL).strip()
+        
+        # Add code to the human input
+        full_human_input = f"[STUDENT'S CODE]:\n{user_code}"
+        if clean_input and not full_human_input.startswith(clean_input):
+            full_human_input = f"{clean_input}\n\n{full_human_input}"
+
+        # 4. Invoke the AI Conversation with dynamic system prompt
         response = self.conversation.invoke(
-            {"input": full_prompt},
+            {"input": full_human_input, "system_prompt": dynamic_prompt},
             config={"configurable": {"session_id": session_id}}
         )
         return response
