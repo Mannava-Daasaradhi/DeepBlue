@@ -88,7 +88,7 @@ A valid Google Gemini API Key
 
 🔥 Option 1: Quick Start with Docker (Recommended)
 1. Clone the repository
-git clone https://github.com/yourusername/deepblue.git
+git clone [https://github.com/yourusername/deepblue.git](https://github.com/Mannava-Daasaradhi/DeepBlue.git)
 cd deepblue
 
 2. Configure Environment Variables
