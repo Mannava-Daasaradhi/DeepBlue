@@ -205,7 +205,8 @@ def get_missions(is_premium: bool = False):
                 items = data[category] if isinstance(data[category], list) else []
                 for m in items:
                     if isinstance(m, dict):
-                        m['difficulty'] = category # Ensure difficulty label matches category
+                        # FIX: Do not overwrite difficulty. Add category tag instead.
+                        m['category_tag'] = category 
                         all_missions.append(m)
         elif isinstance(data, list):
             all_missions = data

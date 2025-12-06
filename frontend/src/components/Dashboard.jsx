@@ -30,6 +30,14 @@ const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack }) => {
   const userId = user?.id;
 
   const textareaRef = useRef(null);
+  const messagesEndRef = useRef(null); // Ref for auto-scrolling
+
+  // Scroll to bottom effect
+  useEffect(() => {
+    if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [output, testResults, activeTab]);
 
   // 2. AUTO-INDENTATION LOGIC
   const handleKeyDown = (e) => {
@@ -176,6 +184,8 @@ const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack }) => {
                       ))}
                   </div>
               )}
+              {/* Invisible element to scroll to */}
+              <div ref={messagesEndRef} />
           </div>
         </div>
 

@@ -53,14 +53,14 @@ const MissionSelect = ({ onSelectMission }) => {
   const [filteredMissions, setFilteredMissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('All'); // 'All', 'Easy', 'Medium', 'Hard'
+  const [searchQuery, setSearchQuery] = useState(''); // New Search State
 
   useEffect(() => {
     // Fetch missions from backend
-    // NOTE: Assuming backend returns a FLAT list now (thanks to your main.py fix)
-    axios.get('http://127.0.0.1:8000/missions?is_premium=true') // Use premium=true to fetch ALL levels to show
+    axios.get('http://127.0.0.1:8000/missions?is_premium=true') 
       .then(res => {
         setAllMissions(res.data);
-        setFilteredMissions(res.data); // Initially show all
+        setFilteredMissions(res.data); 
         setLoading(false);
       })
       .catch(err => {
@@ -69,17 +69,29 @@ const MissionSelect = ({ onSelectMission }) => {
       });
   }, []);
 
-  // Filter Logic
+  // Combined Filter Logic (Difficulty + Search)
   useEffect(() => {
-    if (activeFilter === 'All') {
-        setFilteredMissions(allMissions);
-    } else {
-        setFilteredMissions(allMissions.filter(m => m.difficulty === activeFilter));
+    let result = allMissions;
+
+    // 1. Filter by Difficulty
+    if (activeFilter !== 'All') {
+        result = result.filter(m => m.difficulty === activeFilter);
     }
-  }, [activeFilter, allMissions]);
+
+    // 2. Filter by Search Query
+    if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        result = result.filter(m => 
+            m.title.toLowerCase().includes(query) || 
+            m.description.toLowerCase().includes(query)
+        );
+    }
+
+    setFilteredMissions(result);
+  }, [activeFilter, searchQuery, allMissions]);
 
   if (loading) return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
+      <div className="h-screen bg-slate-900 flex items-center justify-center text-white">
           <div className="animate-pulse flex flex-col items-center">
               <div className="h-12 w-12 bg-blue-500 rounded-full mb-4"></div>
               <p>Loading Deep Blue Protocol...</p>
@@ -88,15 +100,29 @@ const MissionSelect = ({ onSelectMission }) => {
   );
 
   return (
-    <div className="min-h-screen bg-slate-900 p-8 font-sans">
-      <header className="mb-12 text-center">
+    <div className="h-screen bg-slate-900 p-8 font-sans overflow-y-auto">
+      <header className="mb-12 text-center max-w-2xl mx-auto">
         <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 mb-4 tracking-tight">
           DEEP BLUE PROTOCOL
         </h1>
-        <p className="text-slate-400 text-lg">Select a simulation to begin your training.</p>
+        <p className="text-slate-400 text-lg mb-8">Select a simulation to begin your training.</p>
         
+        {/* SEARCH BAR */}
+        <div className="relative mb-6">
+            <input 
+                type="text" 
+                placeholder="Search missions..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-slate-800 border border-slate-700 rounded-full py-3 px-6 pl-12 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-lg placeholder:text-slate-600"
+            />
+            <svg className="w-5 h-5 text-slate-500 absolute left-4 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+        </div>
+
         {/* FILTER TABS */}
-        <div className="flex justify-center gap-3 mt-8">
+        <div className="flex justify-center gap-3">
             {['All', 'Easy', 'Medium', 'Hard'].map(filter => (
                 <FilterButton 
                     key={filter} 
@@ -108,14 +134,20 @@ const MissionSelect = ({ onSelectMission }) => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto pb-10">
         {filteredMissions.length > 0 ? (
             filteredMissions.map(mission => (
             <MissionCard key={mission.id} mission={mission} onClick={onSelectMission} />
             ))
         ) : (
-            <div className="col-span-full text-center text-slate-500 py-10">
-                No missions found for this difficulty level.
+            <div className="col-span-full text-center py-10">
+                <p className="text-slate-500 text-xl">No missions found matching criteria.</p>
+                <button 
+                    onClick={() => {setSearchQuery(''); setActiveFilter('All');}}
+                    className="mt-4 text-blue-400 hover:underline"
+                >
+                    Clear Filters
+                </button>
             </div>
         )}
       </div>
