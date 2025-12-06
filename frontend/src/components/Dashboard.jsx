@@ -123,8 +123,17 @@ const Dashboard = ({ initialCode, onBack }) => {
           <div className="flex-grow p-4 flex flex-col bg-slate-900">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-4">
+                    {/* --- BACK BUTTON IMPLEMENTATION --- */}
+                    {onBack && (
+                        <button 
+                            onClick={onBack} 
+                            className="group flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all"
+                            title="Back to Missions"
+                        >
+                            <span className="text-lg transform group-hover:-translate-x-0.5 transition-transform">←</span>
+                        </button>
+                    )}
                     <h2 className="text-xl font-bold text-blue-400">Deep Blue Editor</h2>
-                    {onBack && <button onClick={onBack} className="text-xs text-slate-400 hover:text-white transition-colors">← Back to Menu</button>}
                 </div>
                 <div className="flex gap-2">
                     <button onClick={handleRun} className="bg-green-600 hover:bg-green-500 text-white text-sm font-bold py-2 px-4 rounded transition shadow-lg hover:shadow-green-500/20 flex items-center gap-2">
@@ -175,10 +184,7 @@ const Dashboard = ({ initialCode, onBack }) => {
               <CodeVisualizer data={visualData} />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-slate-500">
-                <div className="text-center">
-                    <p className="text-4xl mb-2 opacity-50">🧊</p>
-                    <p>Hit "Analyze" to see 3D Structure</p>
-                </div>
+                <p className="opacity-50">Hit "Analyze" to see 3D Structure</p>
               </div>
             )}
           </div>
