@@ -1,68 +1,72 @@
 🧊 Deep Blue
 The Socratic Coding Tutor & 3D Logic Visualizer
 
-Deep Blue is an advanced, interactive Python learning environment built around the Socratic Method. Instead of providing direct solutions, the AI mentor helps you think, guiding you through reasoning-based questions.
+Deep Blue is a next-generation interactive Python learning environment built on the Socratic Method.
+Rather than giving direct solutions, the AI mentor asks guiding questions that train you to think and debug logically.
 
-It includes a cutting-edge 3D AST Visualizer that transforms code into interactive 3D logic structures—helping learners see algorithms, not just write them.
+The system also includes a futuristic 3D AST (Abstract Syntax Tree) Visualizer, allowing learners to see their code as a dynamic 3D structure.
 
-🚀 Key Features
+<br>
+🚀 Features
 🤖 Socratic AI Tutor
 
 Powered by Google Gemini 2.0 Flash + LangChain
 
-Provides thought-provoking questions—not fixes
+Guides by questioning and reasoning
 
-Trains algorithmic reasoning and debugging skills
+No auto-fix → students learn problem-solving mindset
 
-🎥 3D AST Code Visualization (Pro Tier)
+🎥 3D Code Visualization (Pro Feature)
 
-Converts Python code → Interactive 3D Node Graph
+Python code → Interactive 3D Node Graph
 
 Built using React Three Fiber, Three.js, Drei
 
-Visual Node Mapping:
+Visual Node Colors:
 
-Functions → Blue
+Functions: Blue
 
-Loops → Green
+Loops: Green
 
-Conditionals → Orange
+Conditionals: Orange
 
 🎮 Gamified Missions
 
-Alien-signal decoders
+Alien signal decryption puzzles
 
-Beacon repair puzzles
+Broken beacon repair missions
 
-Algorithm quests and logic raids
+Step-by-step guided coding quests
 
 🔐 Freemium Architecture
-Tier	Features
+Tier	Access
 Free	Code Editor, Socratic Tutor, Easy Missions
-Pro	3D Visualizer, Haptic Error Feedback, Medium/Hard Missions
-⚡ Modern Tech Stack
+Pro	3D Visualizer, Haptic Feedback, Medium/Hard Missions
+⚡ Modern Stack
 
 Frontend: React + Vite, Tailwind CSS
 
-3D Engine: Three.js, React Three Fiber
+Visualization: Three.js, React Three Fiber, Drei
 
 Backend: FastAPI, Uvicorn
 
-AI Engine: Gemini + LangChain
+AI Engine: Gemini 2.0 Flash + LangChain
 
 Parsing: Python ast module
 
-Infrastructure: Docker & Docker Compose
+Infrastructure: Docker, Docker Compose
 
-🛠️ Technologies Overview
-Layer	Tools & Frameworks
+<br>
+🛠️ Tech Stack Overview
+Layer	Technologies
 Frontend	React, Vite, Tailwind CSS
-Visualization	Three.js, React Three Fiber, Drei
-Backend	FastAPI, Uvicorn
-AI Engine	LangChain, Gemini 2.0 Flash
-Parsing	Python ast
+3D Rendering	Three.js, React Three Fiber
+Backend	FastAPI, Python
+AI	Gemini 2.0 Flash, LangChain
+Parsing	Python AST
 Networking	Axios
-Infra	Docker, Docker Compose
+Deployment	Docker, Docker Compose
+<br>
 📦 Installation & Setup
 Prerequisites
 
@@ -72,25 +76,24 @@ OR Node.js 18+ & Python 3.9+
 A valid Google Gemini API Key
 
 ⚙️ Option 1 — Quick Start with Docker (Recommended)
-1. Clone the repository
-git clone https://github.com/Mannava-Daasaradhi/DeepBlue.git
+1. Clone repository
+git clone [https://github.com/yourusername/deepblue.git](https://github.com/Mannava-Daasaradhi/DeepBlue.git)
 cd deepblue
 
 2. Create environment file
 
-backend/.env
-
-GOOGLE_API_KEY=your_actual_api_key_here
+Path: backend/.env
 
 3. Build & run
 docker-compose up --build
 
-4. Access the app
+4. Access
 
-Frontend IDE: http://localhost:5173
+Frontend: http://localhost:5173
 
-Backend API Docs: http://localhost:8000/docs
+Backend Docs: http://localhost:8000/docs
 
+<br>
 🔧 Option 2 — Manual Setup
 🖥️ Backend Setup
 cd backend
@@ -108,7 +111,7 @@ Install dependencies:
 pip install -r requirements.txt
 
 
-Run server:
+Run backend:
 
 uvicorn main:app --reload
 
@@ -117,51 +120,47 @@ cd ../frontend
 npm install
 npm run dev
 
-🖥️ How to Use
-✏️ Write Code
+<br>
+🖥️ How to Use Deep Blue
+✏️ 1. Write Python Code
 
-Use the left-panel editor to write Python code.
+Use the left editor panel to write your program.
 
-🧠 Analyze Logic
+🧠 2. Analyze Logic
 
-Click Analyze Logic → AI provides Socratic guidance.
-No direct answers. Only leading questions.
+Click Analyze Logic → receive Socratic feedback.
+No direct answers—your reasoning is trained.
 
-🎥 3D AST (Pro Mode)
+🎥 3. Visualize in 3D (Pro Mode)
 
-When Pro is active:
+If Pro mode is enabled:
 
-Backend returns 3D node coordinates
+Backend sends 3D AST node coordinates
 
-Visualizer renders real-time AST graph
+Visualizer renders code in real time
 
-Note: Free tier cannot access 3D coordinate data (backend-enforced).
+Free Tier: Backend does not send 3D data (hard-enforced security).
 
-🗡️ Missions
+🎮 4. Missions
 
-Switch to Missions for:
+Open Missions Tab to solve logic puzzles and coding raids.
 
-Coding puzzle raids
-
-Algorithm quests
-
-Progressive difficulty challenges
-
+<br>
 📁 Project Structure
 deepblue/
 ├── docker-compose.yml
 ├── backend/
 │   ├── app/
-│   │   ├── data/             # Mission data (JSON)
+│   │   ├── data/             # Missions JSON
 │   │   ├── engine/
-│   │   │   ├── rag_agent.py  # LangChain + Gemini
-│   │   │   └── ast_parser.py # Python AST → 3D Node Graph
+│   │   │   ├── rag_agent.py  # LangChain + Gemini Agent
+│   │   │   └── ast_parser.py # AST → 3D Node Parser
 │   ├── main.py               # FastAPI entry point
 │   ├── Dockerfile
 │   └── requirements.txt
 └── frontend/
     ├── src/
-    │   ├── components/       # UI Components
+    │   ├── components/       # UI Elements
     │   ├── three-scene/      # 3D Visualizer
     │   ├── App.jsx
     │   └── main.jsx
