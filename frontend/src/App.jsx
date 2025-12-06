@@ -37,6 +37,13 @@ function App() {
     setCurrentScreen('menu');
   };
 
+  // Add this function to update user state after upgrade
+  const handleUserUpgrade = () => {
+      const updatedUser = { ...user, is_premium: true };
+      setUser(updatedUser);
+      localStorage.setItem('deepblue_user', JSON.stringify(updatedUser));
+  };
+
   // If not logged in, show Modal
   if (!user) {
     return <LoginModal onLogin={handleLogin} />;
@@ -65,6 +72,7 @@ function App() {
           missionId={activeMission?.id}
           missionDesc={activeMission?.description}
           onBack={handleBackToMenu}
+          onUpgrade={handleUserUpgrade} // Pass the upgrade handler
         />
       )}
     </>

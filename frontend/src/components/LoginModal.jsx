@@ -3,19 +3,26 @@ import axios from 'axios';
 
 const LoginModal = ({ onLogin }) => {
   const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username.trim()) return;
+    if (!username.trim() || !password.trim()) {
+        setError('Please enter both username and password.');
+        return;
+    }
 
     setLoading(true);
     setError('');
 
     try {
-      // Call the Register endpoint we created in main.py
-      const response = await axios.post(`http://127.0.0.1:8000/register?username=${username}`);
+      // Changed to POST body for security
+      const response = await axios.post(`http://127.0.0.1:8000/register`, {
+          username: username,
+          password: password
+      });
       
       // Pass the user data back to App.jsx
       onLogin({
@@ -25,7 +32,11 @@ const LoginModal = ({ onLogin }) => {
       });
     } catch (err) {
       console.error(err);
-      setError('Connection failed. Is the backend running?');
+      if (err.response && err.response.status === 401) {
+          setError('Incorrect password. Please try again.');
+      } else {
+          setError('Connection failed or server error.');
+      }
     }
     setLoading(false);
   };
@@ -50,6 +61,17 @@ const LoginModal = ({ onLogin }) => {
               className="w-full bg-slate-900 border border-slate-700 rounded-lg p-4 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-slate-600"
               placeholder="Enter callsign..."
               autoFocus
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-slate-900 border border-slate-700 rounded-lg p-4 text-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-slate-600"
+              placeholder="••••••••"
             />
           </div>
 

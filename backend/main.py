@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Depends
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 import json
 import os
 import io
@@ -20,6 +21,9 @@ from app import models
 # Initialize Database Tables
 models.Base.metadata.create_all(bind=engine)
 
+# Password Hashing Config
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 app = FastAPI()
 
 app.add_middleware(
@@ -31,13 +35,24 @@ app.add_middleware(
 )
 
 # --- REQUEST MODELS ---
+class UserAuth(BaseModel):
+    username: str
+    password: str
+
 class CodeRequest(BaseModel):
     code: str
     user_input: str = ""
     session_id: str = "default_user"
     is_premium: bool = False
     mission_id: int = None
-    user_id: int = None # Added for saving progress
+    user_id: int = None 
+
+# --- HELPER FUNCTIONS ---
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
+
+def get_password_hash(password):
+    return pwd_context.hash(password)
 
 @app.get("/")
 def read_root():
@@ -46,25 +61,54 @@ def read_root():
 # --- DATABASE ENDPOINTS ---
 
 @app.post("/register")
-def register_user(username: str, db: Session = Depends(get_db)):
+def register_user(auth: UserAuth, db: Session = Depends(get_db)):
     """
-    Registers a new user or logs in an existing one.
+    Registers a new user with password or logs in an existing one.
     """
-    existing = db.query(models.User).filter(models.User.username == username).first()
-    if existing:
-        return {"message": "User found", "user_id": existing.id, "is_premium": existing.is_premium}
+    username = auth.username
+    password = auth.password
     
-    new_user = models.User(username=username)
+    existing = db.query(models.User).filter(models.User.username == username).first()
+    
+    # 1. Login Existing User
+    if existing:
+        if not verify_password(password, existing.hashed_password):
+            raise HTTPException(status_code=401, detail="Incorrect password")
+            
+        # Auto-upgrade 'pro' user if needed (legacy support)
+        if username.lower() == "pro" and not existing.is_premium:
+            existing.is_premium = True
+            db.commit()
+            
+        return {"message": "Login successful", "user_id": existing.id, "is_premium": existing.is_premium}
+    
+    # 2. Register New User
+    hashed_pwd = get_password_hash(password)
+    # Auto-grant premium if username is 'pro'
+    is_premium_status = True if username.lower() == "pro" else False
+    
+    new_user = models.User(username=username, hashed_password=hashed_pwd, is_premium=is_premium_status)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"message": "Welcome Commander", "user_id": new_user.id, "is_premium": False}
+    
+    return {"message": "Registration successful", "user_id": new_user.id, "is_premium": is_premium_status}
+
+@app.post("/upgrade-premium")
+def upgrade_premium(user_id: int, db: Session = Depends(get_db)):
+    """
+    Upgrades a user to premium status.
+    """
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    user.is_premium = True
+    db.commit()
+    return {"status": "User upgraded to Premium 🌟", "is_premium": True}
 
 @app.post("/save-progress")
 def save_progress(user_id: int, mission_id: int, code: str, db: Session = Depends(get_db)):
-    """
-    Saves completed mission code to the database.
-    """
     existing = db.query(models.UserProgress).filter_by(user_id=user_id, mission_id=mission_id).first()
     
     if existing:
@@ -93,27 +137,21 @@ async def execute_code(request: CodeRequest):
 
     output_buffer = io.StringIO()
     try:
-        # 1. Run Code
         with contextlib.redirect_stdout(output_buffer):
             safe_globals = {"__builtins__": __builtins__}
             exec(request.code, safe_globals)
             
-            # 2. Run Test Cases (If mission_id is present)
             test_results = []
             if request.mission_id:
                 try:
-                    # Load missions safely
                     with open(os.path.join("app", "data", "missions.json"), "r") as f:
                         data = json.load(f)
                     
-                    # Flatten missions (Handles Dictionary or List structure)
                     all_missions = []
                     if isinstance(data, dict):
                         for cat in data: 
-                            # Extract missions from category list
                             category_missions = data[cat] if isinstance(data[cat], list) else []
                             for m in category_missions:
-                                # Ensure m is a dict before extending
                                 if isinstance(m, dict):
                                     all_missions.append(m)
                     elif isinstance(data, list):
@@ -122,7 +160,6 @@ async def execute_code(request: CodeRequest):
                     mission = next((m for m in all_missions if m.get("id") == request.mission_id), None)
 
                     if mission and "test_cases" in mission:
-                        # Extract function name from code using Regex
                         match = re.search(r"def\s+(\w+)\(", request.code)
                         if match:
                             func_name = match.group(1)
@@ -133,7 +170,6 @@ async def execute_code(request: CodeRequest):
                                     inputs = case["input"]
                                     expected = case["expected"]
                                     try:
-                                        # Run user function with test inputs
                                         result = user_func(*inputs)
                                         passed = result == expected
                                         test_results.append({
@@ -165,7 +201,6 @@ async def execute_code(request: CodeRequest):
 @app.post("/analyze")
 async def analyze_code(request: CodeRequest):
     try:
-        # Premium Gate for 3D
         if request.is_premium:
             visual_data = parse_code_to_3d(request.code)
         else:
@@ -198,20 +233,17 @@ def get_missions(is_premium: bool = False):
         with open(file_path, "r") as f:
             data = json.load(f)
         
-        # Flatten Dictionary Structure for Frontend
         all_missions = []
         if isinstance(data, dict):
             for category in data:
                 items = data[category] if isinstance(data[category], list) else []
                 for m in items:
                     if isinstance(m, dict):
-                        # FIX: Do not overwrite difficulty. Add category tag instead.
                         m['category_tag'] = category 
                         all_missions.append(m)
         elif isinstance(data, list):
             all_missions = data
 
-        # Filter Logic
         if is_premium:
             return all_missions 
         else:

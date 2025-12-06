@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import CodeVisualizer from '../three-scene/CodeVisualizer';
+import CodeVisualizer from '../three-scene/CodeVisualizer.jsx';
 
 const Sidebar = ({ isPremium }) => (
   <div className="w-16 flex flex-col items-center py-4 space-y-8 bg-slate-800 border-r border-slate-700 z-10">
@@ -15,7 +15,7 @@ const Sidebar = ({ isPremium }) => (
   </div>
 );
 
-const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack }) => {
+const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack, onUpgrade }) => {
   // 1. STATE MANAGEMENT
   const [code, setCode] = useState(initialCode || `def solve():\n    pass`);
   const [visualData, setVisualData] = useState(null);
@@ -24,6 +24,7 @@ const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack }) => {
   const [testResults, setTestResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("terminal"); // 'terminal' or 'tests'
+  const [upgrading, setUpgrading] = useState(false); // New state for upgrade button
 
   // Extract User Info
   const isPremium = user?.is_premium || false;
@@ -117,6 +118,39 @@ const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack }) => {
     setLoading(false);
   };
 
+  // 5. HANDLE UPGRADE
+  const handleUpgradeClick = async () => {
+      console.log("Attempting upgrade for user ID:", userId); // DEBUG LOG
+      
+      if (!userId) {
+          alert("Error: User ID not found. Please re-login.");
+          return;
+      }
+
+      setUpgrading(true);
+      try {
+          // Sending user_id as a query parameter as expected by the backend
+          const response = await axios.post(`http://127.0.0.1:8000/upgrade-premium?user_id=${userId}`);
+          
+          console.log("Upgrade Response:", response.data); // DEBUG LOG
+
+          if (response.status === 200) {
+              if (onUpgrade) {
+                  onUpgrade(); // Trigger parent state update
+              } else {
+                  console.error("onUpgrade prop is missing!");
+              }
+              // We don't call handleAnalyze here automatically to avoid confusing the user, 
+              // just unlock the view.
+          }
+      } catch (err) {
+          console.error("Upgrade error:", err);
+          const errorMsg = err.response?.data?.detail || "Upgrade failed. Please try again.";
+          alert(errorMsg);
+      }
+      setUpgrading(false);
+  };
+
   return (
     <div className="flex h-screen bg-slate-900 text-white font-sans">
       <Sidebar isPremium={isPremium} />
@@ -197,8 +231,12 @@ const Dashboard = ({ user, initialCode, missionId, missionDesc, onBack }) => {
                 <div className="absolute inset-0 z-20 bg-slate-900/80 backdrop-blur-md flex flex-col items-center justify-center text-center p-6">
                     <h3 className="text-2xl font-bold text-white mb-2">3D Logic View Locked</h3>
                     <p className="text-slate-400 mb-4 text-sm">Upgrade to PRO to visualize syntax.</p>
-                    <button className="bg-slate-700 text-slate-400 font-bold py-2 px-6 rounded-full cursor-not-allowed opacity-75 border border-slate-600">
-                        🔒 Pro Feature
+                    <button 
+                        onClick={handleUpgradeClick}
+                        disabled={upgrading}
+                        className={`font-bold py-2 px-6 rounded-full border border-amber-500/50 transition-all ${upgrading ? "bg-amber-800 text-amber-200" : "bg-amber-600 text-white hover:bg-amber-500 hover:scale-105 shadow-lg shadow-amber-600/30"}`}
+                    >
+                        {upgrading ? "Upgrading..." : "🔓 Unlock PRO"}
                     </button>
                 </div>
             )}
