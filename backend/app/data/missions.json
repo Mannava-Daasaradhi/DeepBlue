@@ -1,638 +1,1135 @@
-{
-  "Easy": [
-    {
-      "id": 101,
-      "title": "RPG: Health Potion",
-      "difficulty": "Easy",
-      "description": "Your hero is hurt! Calculating healing logic. The potion restores exactly 20 health points to the current HP.",
-      "correct_syntax": "new_hp = current_hp + 20",
-      "roles": {
-        "architect": "Logic Task: We need to increase a numeric value. Take the current health and add 20 to it.",
-        "translator": "Syntax Task: Use the '+' operator to add 20 to 'current_hp'. Assign the result to 'new_hp'.",
-        "debugger": "Check: Ensure they are adding integers, not strings (e.g. '20')."
-      },
-      "starter_code": "def drink_potion(current_hp):\n    # Add health\n    return new_hp",
-      "solution_keywords": ["+", "20"]
+[
+  {
+    "id": 101,
+    "title": "RPG: Health Potion",
+    "difficulty": "Easy",
+    "description": "Your hero is hurt! The potion restores exactly 20 health points. Write a function drink_potion(current_hp) that returns the new HP.",
+    "roles": {
+      "architect": "Logic: Add 20 to the input.",
+      "translator": "Syntax: return current_hp + 20",
+      "debugger": "Check: Ensure integer addition."
     },
-    {
-      "id": 102,
-      "title": "FPS: Reload Mechanic",
-      "difficulty": "Easy",
-      "description": "The player pressed 'R'. We need to reset the ammo counter back to the magazine capacity (30 rounds).",
-      "correct_syntax": "ammo = 30",
-      "roles": {
-        "architect": "Logic Task: We need to reset a value. Ignore the current ammo count and overwrite it directly with the maximum capacity.",
-        "translator": "Syntax Task: Assign the integer value 30 to the variable 'ammo' using the '=' operator.",
-        "debugger": "Check: Did they try to add 30? We want to SET it to 30, not add to it."
+    "starter_code": "def drink_potion(current_hp):\n    # Add 20 to health\n    return 0",
+    "solution_keywords": [
+      "+",
+      "20"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          50
+        ],
+        "expected": 70
       },
-      "starter_code": "def reload_weapon():\n    # Reset ammo\n    return ammo",
-      "solution_keywords": ["=", "30"]
+      {
+        "input": [
+          10
+        ],
+        "expected": 30
+      },
+      {
+        "input": [
+          80
+        ],
+        "expected": 100
+      }
+    ]
+  },
+  {
+    "id": 603,
+    "title": "Launch Countdown",
+    "difficulty": "Easy",
+    "description": "Write a function get_countdown() that returns a list of numbers from 10 down to 1.",
+    "roles": {
+      "architect": "Logic: Loop backwards from 10 to 1.",
+      "translator": "Syntax: range(10, 0, -1)",
+      "debugger": "Check: Stop value is exclusive."
     },
-    {
-      "id": 103,
-      "title": "Racing: Nitro Boost",
-      "difficulty": "Easy",
-      "description": "Nitro activated! The car's speed should instantly double.",
-      "correct_syntax": "speed = speed * 2",
-      "roles": {
-        "architect": "Logic Task: We need to scale a value. Take the current speed and multiply it by 2.",
-        "translator": "Syntax Task: Use the '*' operator to multiply 'speed' by 2.",
-        "debugger": "Check: Ensure they assign the result back to 'speed' (speed = ...)."
-      },
-      "starter_code": "def activate_nitro(speed):\n    # Double speed\n    return speed",
-      "solution_keywords": ["*", "2"]
+    "starter_code": "def get_countdown():\n    # Return list [10, 9, ... 1]\n    return []",
+    "solution_keywords": [
+      "range",
+      "10",
+      "-1"
+    ],
+    "test_cases": [
+      {
+        "input": [],
+        "expected": [
+          10,
+          9,
+          8,
+          7,
+          6,
+          5,
+          4,
+          3,
+          2,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "title": "FPS: Reload Mechanic",
+    "difficulty": "Easy",
+    "description": "The player pressed 'R'. Write a function reload_weapon() that returns 30 (full magazine).",
+    "roles": {
+      "architect": "Logic: Reset value to max capacity (30).",
+      "translator": "Syntax: return 30",
+      "debugger": "Check: Simply return the integer."
     },
-    {
-      "id": 104,
-      "title": "Social: Username Formatter",
-      "difficulty": "Easy",
-      "description": "A new user signed up with messy casing 'xX_Slayer_Xx'. Convert their username to all lowercase for the database.",
-      "correct_syntax": "clean_name = username.lower()",
-      "roles": {
-        "architect": "Logic Task: Text Normalization. Convert every character in the string to its lowercase equivalent.",
-        "translator": "Syntax Task: Use the string method .lower(). Remember the parentheses ().",
-        "debugger": "Check: Did they forget the ()?"
-      },
-      "starter_code": "def save_user(username):\n    # Normalize string\n    return clean_name",
-      "solution_keywords": [".lower()", "username"]
+    "starter_code": "def reload_weapon():\n    # Reset ammo\n    return 0",
+    "solution_keywords": [
+      "return",
+      "30"
+    ],
+    "test_cases": [
+      {
+        "input": [],
+        "expected": 30
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "title": "Racing: Nitro Boost",
+    "difficulty": "Easy",
+    "description": "Nitro activated! Write a function activate_nitro(speed) that returns double the input speed.",
+    "roles": {
+      "architect": "Logic: Multiply input by 2.",
+      "translator": "Syntax: return speed * 2",
+      "debugger": "Check: Use asterisk (*) for multiplication."
     },
-    {
-      "id": 105,
-      "title": "Puzzle: Score Multiplier",
-      "difficulty": "Easy",
-      "description": "Combo achieved! Calculate the total score by adding the base points and the bonus points together.",
-      "correct_syntax": "total_score = points + bonus",
-      "roles": {
-        "architect": "Logic Task: Simple Arithmetic. Sum two variables together.",
-        "translator": "Syntax Task: Use '+' between the variable names.",
-        "debugger": "Check: Variable names must match exactly."
+    "starter_code": "def activate_nitro(speed):\n    # Double speed\n    return 0",
+    "solution_keywords": [
+      "*",
+      "2"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          50
+        ],
+        "expected": 100
       },
-      "starter_code": "def calc_score(points, bonus):\n    # Add them up\n    return total_score",
-      "solution_keywords": ["+", "points", "bonus"]
+      {
+        "input": [
+          100
+        ],
+        "expected": 200
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "title": "Social: Username Formatter",
+    "difficulty": "Easy",
+    "description": "Write a function save_user(username) that returns the username converted to lowercase.",
+    "roles": {
+      "architect": "Logic: Convert text to lowercase.",
+      "translator": "Syntax: return username.lower()",
+      "debugger": "Check: Remember parentheses ().",
+      "test_cases": [
+        {
+          "input": [
+            "UserOne"
+          ],
+          "expected": "userone"
+        },
+        {
+          "input": [
+            "ADMIN"
+          ],
+          "expected": "admin"
+        }
+      ]
     },
-    {
-      "id": 106,
-      "title": "Inventory: The First Slot",
-      "difficulty": "Easy",
-      "description": "The player wants to equip the primary weapon. Retrieve the FIRST item from the 'backpack' list.",
-      "correct_syntax": "weapon = backpack[0]",
-      "roles": {
-        "architect": "Logic Task: List Access. Get the item at the very beginning of the collection.",
-        "translator": "Syntax Task: Use square brackets []. The index for the first item is 0.",
-        "debugger": "Check: Did they use 1? It must be 0."
+    "starter_code": "def save_user(username):\n    # Normalize string\n    return \"\"",
+    "solution_keywords": [
+      ".lower()"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "UserOne"
+        ],
+        "expected": "userone"
       },
-      "starter_code": "def equip_primary(backpack):\n    # Get first item\n    return weapon",
-      "solution_keywords": ["[0]", "backpack"]
+      {
+        "input": [
+          "ADMIN"
+        ],
+        "expected": "admin"
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "title": "Puzzle: Score Multiplier",
+    "difficulty": "Easy",
+    "description": "Write a function calc_score(points, bonus) that returns their sum.",
+    "roles": {
+      "architect": "Logic: Add two inputs together.",
+      "translator": "Syntax: return points + bonus",
+      "debugger": "Check: Standard addition."
     },
-    {
-      "id": 107,
-      "title": "Chat: Shout Filter",
-      "difficulty": "Easy",
-      "description": "A player is spamming caps. Convert their message to Title Case (Capitalize first letter only) to calm them down.",
-      "correct_syntax": "fixed_msg = message.capitalize()",
-      "roles": {
-        "architect": "Logic Task: Text Transformation. Make the first letter big, rest small.",
-        "translator": "Syntax Task: Use the .capitalize() method.",
-        "debugger": "Check: Parentheses required."
+    "starter_code": "def calc_score(points, bonus):\n    # Add them up\n    return 0",
+    "solution_keywords": [
+      "+",
+      "points",
+      "bonus"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          100,
+          50
+        ],
+        "expected": 150
       },
-      "starter_code": "def filter_chat(message):\n    # Fix casing\n    return fixed_msg",
-      "solution_keywords": [".capitalize()", "message"]
+      {
+        "input": [
+          10,
+          10
+        ],
+        "expected": 20
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "title": "Inventory: The First Slot",
+    "difficulty": "Easy",
+    "description": "Write a function equip_primary(backpack) that returns the first item in the list.",
+    "roles": {
+      "architect": "Logic: Get the element at index 0.",
+      "translator": "Syntax: return backpack[0]",
+      "debugger": "Check: Index starts at 0."
     },
-    {
-      "id": 108,
-      "title": "Economy: Gold Loot",
-      "difficulty": "Easy",
-      "description": "We defeated a goblin. Create a list containing the loot: 'Gold Coin' and 'Dagger'.",
-      "correct_syntax": "loot = ['Gold Coin', 'Dagger']",
-      "roles": {
-        "architect": "Logic Task: Create a Collection. It needs two specific text items.",
-        "translator": "Syntax Task: Use square brackets []. Strings need quotes. Comma to separate.",
-        "debugger": "Check: Quotes around both items?"
+    "starter_code": "def equip_primary(backpack):\n    # Get first item\n    return \"\"",
+    "solution_keywords": [
+      "[0]"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            "Sword",
+            "Shield"
+          ]
+        ],
+        "expected": "Sword"
       },
-      "starter_code": "def generate_loot():\n    # Create list\n    return loot",
-      "solution_keywords": ["[", "'Gold Coin'", "'Dagger'", "]"]
+      {
+        "input": [
+          [
+            "Potion"
+          ]
+        ],
+        "expected": "Potion"
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "title": "Chat: Shout Filter",
+    "difficulty": "Easy",
+    "description": "Write a function filter_chat(message) that returns the message in Title Case (capitalized).",
+    "roles": {
+      "architect": "Logic: Capitalize only the first letter.",
+      "translator": "Syntax: return message.capitalize()",
+      "debugger": "Check: Python's .capitalize() method."
     },
-    {
-      "id": 109,
-      "title": "Stats: Level Up Cost",
-      "difficulty": "Easy",
-      "description": "Calculate XP needed for next level. Formula: Current Level times 100.",
-      "correct_syntax": "xp_needed = current_level * 100",
-      "roles": {
-        "architect": "Logic Task: Multiplication. Scale the level by a factor of 100.",
-        "translator": "Syntax Task: Use '*'.",
-        "debugger": "Check: Math logic."
+    "starter_code": "def filter_chat(message):\n    # Fix casing\n    return \"\"",
+    "solution_keywords": [
+      ".capitalize()"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "HELLO"
+        ],
+        "expected": "Hello"
       },
-      "starter_code": "def calc_xp(current_level):\n    # Calculate XP\n    return xp_needed",
-      "solution_keywords": ["*", "100"]
+      {
+        "input": [
+          "world"
+        ],
+        "expected": "World"
+      }
+    ]
+  },
+  {
+    "id": 108,
+    "title": "Economy: Gold Loot",
+    "difficulty": "Easy",
+    "description": "Write a function generate_loot() that returns a list containing ['Gold Coin', 'Dagger'].",
+    "roles": {
+      "architect": "Logic: Create a list with two specific strings.",
+      "translator": "Syntax: return ['Gold Coin', 'Dagger']",
+      "debugger": "Check: List syntax []."
     },
-    {
-      "id": 110,
-      "title": "Physics: Gravity Fall",
-      "difficulty": "Easy",
-      "description": "The player is falling. Update the Y-position by subtracting the 'fall_speed'.",
-      "correct_syntax": "y_pos = y_pos - fall_speed",
-      "roles": {
-        "architect": "Logic Task: Decrement a value. Position goes down, so subtract speed.",
-        "translator": "Syntax Task: Use '-' operator.",
-        "debugger": "Check: Variable names."
-      },
-      "starter_code": "def apply_gravity(y_pos, fall_speed):\n    # Move down\n    return y_pos",
-      "solution_keywords": ["-", "fall_speed"]
+    "starter_code": "def generate_loot():\n    # Create list\n    return []",
+    "solution_keywords": [
+      "[",
+      "'Gold Coin'",
+      "'Dagger'",
+      "]"
+    ],
+    "test_cases": [
+      {
+        "input": [],
+        "expected": [
+          "Gold Coin",
+          "Dagger"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 109,
+    "title": "Stats: Level Up Cost",
+    "difficulty": "Easy",
+    "description": "Write a function calc_xp(current_level) that returns current_level multiplied by 100.",
+    "roles": {
+      "architect": "Logic: Multiply input by 100.",
+      "translator": "Syntax: return current_level * 100",
+      "debugger": "Check: Integer multiplication."
     },
-    {
-      "id": 111,
-      "title": "UI: Welcome Message",
-      "difficulty": "Easy",
-      "description": "Combine the strings 'Welcome, ' and the 'player_name' to greet the user.",
-      "correct_syntax": "greeting = 'Welcome, ' + player_name",
-      "roles": {
-        "architect": "Logic Task: Concatenation. Join two text strings together.",
-        "translator": "Syntax Task: Use '+' between the string literal and the variable.",
-        "debugger": "Check: Quotes on 'Welcome, ' but NOT on player_name."
+    "starter_code": "def calc_xp(current_level):\n    # Calculate XP\n    return 0",
+    "solution_keywords": [
+      "*",
+      "100"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          5
+        ],
+        "expected": 500
       },
-      "starter_code": "def show_intro(player_name):\n    # Combine strings\n    return greeting",
-      "solution_keywords": ["+", "'Welcome, '"]
+      {
+        "input": [
+          10
+        ],
+        "expected": 1000
+      }
+    ]
+  },
+  {
+    "id": 110,
+    "title": "Physics: Gravity Fall",
+    "difficulty": "Easy",
+    "description": "Write a function apply_gravity(y_pos, fall_speed) that returns y_pos minus fall_speed.",
+    "roles": {
+      "architect": "Logic: Subtract fall speed from Y position.",
+      "translator": "Syntax: return y_pos - fall_speed",
+      "debugger": "Check: Subtraction order."
     },
-    {
-      "id": 112,
-      "title": "Combat: Shield Break",
-      "difficulty": "Easy",
-      "description": "The shield has been depleted. Set 'shield_active' to False.",
-      "correct_syntax": "shield_active = False",
-      "roles": {
-        "architect": "Logic Task: Boolean Assignment. Turn the switch OFF.",
-        "translator": "Syntax Task: Assign the boolean value False (Capital F).",
-        "debugger": "Check: Python booleans are capitalized (False, not false)."
+    "starter_code": "def apply_gravity(y_pos, fall_speed):\n    # Move down\n    return 0",
+    "solution_keywords": [
+      "-"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          100,
+          5
+        ],
+        "expected": 95
       },
-      "starter_code": "def break_shield():\n    # Turn off shield\n    return shield_active",
-      "solution_keywords": ["False", "="]
+      {
+        "input": [
+          10,
+          2
+        ],
+        "expected": 8
+      }
+    ]
+  },
+  {
+    "id": 111,
+    "title": "UI: Welcome Message",
+    "difficulty": "Easy",
+    "description": "Write a function show_intro(player_name) that returns 'Welcome, ' concatenated with player_name.",
+    "roles": {
+      "architect": "Logic: Combine static string with input variable.",
+      "translator": "Syntax: return 'Welcome, ' + player_name",
+      "debugger": "Check: String concatenation (+)."
     },
-    {
-      "id": 113,
-      "title": "Shop: Buy Item",
-      "difficulty": "Easy",
-      "description": "Player bought a potion. Subtract 'price' from 'gold'.",
-      "correct_syntax": "gold = gold - price",
-      "roles": {
-        "architect": "Logic Task: Subtraction. Reduce the total gold.",
-        "translator": "Syntax Task: use '-' operator.",
-        "debugger": "Check: gold - price (correct) vs price - gold (wrong)."
+    "starter_code": "def show_intro(player_name):\n    # Combine strings\n    return \"\"",
+    "solution_keywords": [
+      "+",
+      "'Welcome, '"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "Neo"
+        ],
+        "expected": "Welcome, Neo"
       },
-      "starter_code": "def buy_item(gold, price):\n    # Deduct gold\n    return gold",
-      "solution_keywords": ["-", "gold", "price"]
+      {
+        "input": [
+          "Trinity"
+        ],
+        "expected": "Welcome, Trinity"
+      }
+    ]
+  },
+  {
+    "id": 112,
+    "title": "Combat: Shield Break",
+    "difficulty": "Easy",
+    "description": "Write a function break_shield() that simply returns False.",
+    "roles": {
+      "architect": "Logic: Return boolean False.",
+      "translator": "Syntax: return False",
+      "debugger": "Check: Capitalize 'False'."
     },
-    {
-      "id": 114,
-      "title": "Party: Add Member",
-      "difficulty": "Easy",
-      "description": "A new hero wants to join! Add 'Rogue' to the 'party' list.",
-      "correct_syntax": "party.append('Rogue')",
-      "roles": {
-        "architect": "Logic Task: List Modification. Add a new item to the end of the collection.",
-        "translator": "Syntax Task: Use the .append() method on the list.",
-        "debugger": "Check: Quotes around 'Rogue'."
-      },
-      "starter_code": "def recruit_hero(party):\n    # Add Rogue\n    return party",
-      "solution_keywords": [".append", "'Rogue'"]
+    "starter_code": "def break_shield():\n    # Turn off shield\n    return True",
+    "solution_keywords": [
+      "False"
+    ],
+    "test_cases": [
+      {
+        "input": [],
+        "expected": false
+      }
+    ]
+  },
+  {
+    "id": 113,
+    "title": "Shop: Buy Item",
+    "difficulty": "Easy",
+    "description": "Write a function buy_item(gold, price) that returns gold minus price.",
+    "roles": {
+      "architect": "Logic: Subtract price from gold.",
+      "translator": "Syntax: return gold - price",
+      "debugger": "Check: Order of operations."
     },
-    {
-      "id": 115,
-      "title": "Settings: Volume Up",
-      "difficulty": "Easy",
-      "description": "Increase volume by 1 unit.",
-      "correct_syntax": "volume = volume + 1",
-      "roles": {
-        "architect": "Logic Task: Increment. Add 1 to the value.",
-        "translator": "Syntax Task: + 1",
-        "debugger": "Check: volume += 1 is also valid."
+    "starter_code": "def buy_item(gold, price):\n    # Deduct gold\n    return 0",
+    "solution_keywords": [
+      "-"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          100,
+          50
+        ],
+        "expected": 50
       },
-      "starter_code": "def adjust_volume(volume):\n    # Increase volume\n    return volume",
-      "solution_keywords": ["+", "1"]
-    }
-  ],
-  "Medium": [
-    {
-      "id": 201,
-      "title": "Platformer: Double Jump",
-      "difficulty": "Medium",
-      "description": "Allow the player to jump ONLY IF their 'jump_count' is less than 2.",
-      "correct_syntax": "if jump_count < 2:\n    jump()",
-      "roles": {
-        "architect": "Logic Task: Conditional Action. Check a numeric limit. If below limit, perform action.",
-        "translator": "Syntax Task: Use 'if' and the '<' operator.",
-        "debugger": "Check: Indentation of jump()."
-      },
-      "starter_code": "def check_jump(jump_count):\n    # Check limit\n    pass",
-      "solution_keywords": ["if", "<", "2"]
+      {
+        "input": [
+          50,
+          10
+        ],
+        "expected": 40
+      }
+    ]
+  },
+  {
+    "id": 114,
+    "title": "Party: Add Member",
+    "difficulty": "Easy",
+    "description": "Write a function recruit_hero(party) that adds 'Rogue' to the party list and returns the list.",
+    "roles": {
+      "architect": "Logic: Append item to list.",
+      "translator": "Syntax: party.append('Rogue')\n    return party",
+      "debugger": "Check: Use .append() method."
     },
-    {
-      "id": 202,
-      "title": "RPG: Critical Hit",
-      "difficulty": "Medium",
-      "description": "If the dice roll is greater than 90, multiply damage by 3. Else, keep normal damage.",
-      "correct_syntax": "if roll > 90:\n    damage = damage * 3",
-      "roles": {
-        "architect": "Logic Task: Conditional Modification. If a high roll happens, scale the value drastically.",
-        "translator": "Syntax Task: 'if roll > 90:'. Indent the math.",
-        "debugger": "Check: Use '*' for multiply."
+    "starter_code": "def recruit_hero(party):\n    # Add Rogue\n    return party",
+    "solution_keywords": [
+      ".append",
+      "'Rogue'"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            "Mage"
+          ]
+        ],
+        "expected": [
+          "Mage",
+          "Rogue"
+        ]
       },
-      "starter_code": "def calculate_crit(roll, damage):\n    # Check crit\n    return damage",
-      "solution_keywords": ["if", ">", "90", "*"]
+      {
+        "input": [
+          []
+        ],
+        "expected": [
+          "Rogue"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 115,
+    "title": "Settings: Volume Up",
+    "difficulty": "Easy",
+    "description": "Write a function adjust_volume(volume) that returns volume plus 1.",
+    "roles": {
+      "architect": "Logic: Increment by 1.",
+      "translator": "Syntax: return volume + 1",
+      "debugger": "Check: Addition."
     },
-    {
-      "id": 203,
-      "title": "Loot: Rare Drop",
-      "difficulty": "Medium",
-      "description": "We opened a chest. If the item is 'Legendary', play the 'fanfare' sound. Otherwise, play 'click'.",
-      "correct_syntax": "if item == 'Legendary':\n    play_fanfare()\nelse:\n    play_click()",
-      "roles": {
-        "architect": "Logic Task: Binary Branch. Specific action for one type, default action for others.",
-        "translator": "Syntax Task: if/else block. Use '==' for string comparison.",
-        "debugger": "Check: Colons and indentation."
+    "starter_code": "def adjust_volume(volume):\n    # Increase volume\n    return 0",
+    "solution_keywords": [
+      "+",
+      "1"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          50
+        ],
+        "expected": 51
       },
-      "starter_code": "def open_chest(item):\n    # Play sound\n    pass",
-      "solution_keywords": ["if", "==", "else"]
+      {
+        "input": [
+          0
+        ],
+        "expected": 1
+      }
+    ]
+  },
+  {
+    "id": 201,
+    "title": "Platformer: Double Jump",
+    "difficulty": "Medium",
+    "description": "Write a function check_jump(jump_count) that returns True if jump_count is less than 2, otherwise False.",
+    "roles": {
+      "architect": "Logic: Return True if count < 2.",
+      "translator": "Syntax: return jump_count < 2",
+      "debugger": "Check: Comparison logic."
     },
-    {
-      "id": 204,
-      "title": "Survival: Hunger Check",
-      "difficulty": "Medium",
-      "description": "If hunger is greater than 80 OR health is less than 20, flash the warning screen.",
-      "correct_syntax": "if hunger > 80 or health < 20:\n    flash_warning()",
-      "roles": {
-        "architect": "Logic Task: Compound Logic (OR). If any one of these bad things is true, trigger the alarm.",
-        "translator": "Syntax Task: Use 'or' between the comparisons.",
-        "debugger": "Check: 'or' keyword usage."
+    "starter_code": "def check_jump(jump_count):\n    # Check limit\n    return False",
+    "solution_keywords": [
+      "<",
+      "2"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          0
+        ],
+        "expected": true
       },
-      "starter_code": "def check_status(hunger, health):\n    # Check danger\n    pass",
-      "solution_keywords": ["if", "or", ">", "<"]
+      {
+        "input": [
+          1
+        ],
+        "expected": true
+      },
+      {
+        "input": [
+          2
+        ],
+        "expected": false
+      }
+    ]
+  },
+  {
+    "id": 202,
+    "title": "RPG: Critical Hit",
+    "difficulty": "Medium",
+    "description": "Write a function calculate_crit(roll, damage) that returns damage * 3 if roll > 90, otherwise returns damage.",
+    "roles": {
+      "architect": "Logic: If roll > 90, triple damage. Else normal.",
+      "translator": "Syntax: if roll > 90:\n        return damage * 3\n    return damage",
+      "debugger": "Check: Conditional return."
     },
-    {
-      "id": 205,
-      "title": "Crafting: Make Sword",
-      "difficulty": "Medium",
-      "description": "To craft a sword, you need 2 Iron AND 1 Wood. Check if you have enough resources.",
-      "correct_syntax": "if iron >= 2 and wood >= 1:\n    craft_sword()",
-      "roles": {
-        "architect": "Logic Task: Compound Logic (AND). Both requirements must be met.",
-        "translator": "Syntax Task: Use 'and'. Use '>=' (greater or equal).",
-        "debugger": "Check: 'and' keyword."
+    "starter_code": "def calculate_crit(roll, damage):\n    # Check crit\n    return damage",
+    "solution_keywords": [
+      "if",
+      ">",
+      "90",
+      "*"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          95,
+          10
+        ],
+        "expected": 30
       },
-      "starter_code": "def try_craft(iron, wood):\n    # Check resources\n    pass",
-      "solution_keywords": ["if", "and", ">="]
+      {
+        "input": [
+          50,
+          10
+        ],
+        "expected": 10
+      }
+    ]
+  },
+  {
+    "id": 203,
+    "title": "Loot: Rare Drop",
+    "difficulty": "Medium",
+    "description": "Write a function open_chest(item) that returns 'Fanfare' if item is 'Legendary', otherwise 'Click'.",
+    "roles": {
+      "architect": "Logic: Check if item equals 'Legendary'.",
+      "translator": "Syntax: if item == 'Legendary':\n        return 'Fanfare'\n    return 'Click'",
+      "debugger": "Check: Comparison operator (==)."
     },
-    {
-      "id": 206,
-      "title": "Inventory: Backpack Limit",
-      "difficulty": "Medium",
-      "description": "Check if the inventory is full. If the length of 'items' is greater than or equal to 'max_slots', show 'Full' message.",
-      "correct_syntax": "if len(items) >= max_slots:\n    show_full_msg()",
-      "roles": {
-        "architect": "Logic Task: Capacity Check. Compare the size of the collection to a limit variable.",
-        "translator": "Syntax Task: Use len() for size. Use '>='.",
-        "debugger": "Check: len(items)."
+    "starter_code": "def open_chest(item):\n    # Return sound\n    return \"\"",
+    "solution_keywords": [
+      "if",
+      "==",
+      "'Legendary'"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "Legendary"
+        ],
+        "expected": "Fanfare"
       },
-      "starter_code": "def check_capacity(items, max_slots):\n    # Check if full\n    pass",
-      "solution_keywords": ["len", ">="]
+      {
+        "input": [
+          "Common"
+        ],
+        "expected": "Click"
+      }
+    ]
+  },
+  {
+    "id": 204,
+    "title": "Survival: Hunger Check",
+    "difficulty": "Medium",
+    "description": "Write a function check_status(hunger, health) that returns True if hunger > 80 OR health < 20, otherwise False.",
+    "roles": {
+      "architect": "Logic: Check high hunger or low health.",
+      "translator": "Syntax: return hunger > 80 or health < 20",
+      "debugger": "Check: Boolean OR."
     },
-    {
-      "id": 207,
-      "title": "Social: Ban Hammer",
-      "difficulty": "Medium",
-      "description": "If the user's 'report_count' is over 10, set 'is_banned' to True.",
-      "correct_syntax": "if report_count > 10:\n    is_banned = True",
-      "roles": {
-        "architect": "Logic Task: Threshold Trigger. If a number exceeds X, flip a flag.",
-        "translator": "Syntax Task: if statement. Assign True.",
-        "debugger": "Check: True must be capitalized."
+    "starter_code": "def check_status(hunger, health):\n    # Check danger\n    return False",
+    "solution_keywords": [
+      "or",
+      ">",
+      "<"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          90,
+          100
+        ],
+        "expected": true
       },
-      "starter_code": "def moderation_bot(report_count):\n    is_banned = False\n    # Check reports\n    return is_banned",
-      "solution_keywords": ["if", ">", "True"]
+      {
+        "input": [
+          50,
+          10
+        ],
+        "expected": true
+      },
+      {
+        "input": [
+          50,
+          50
+        ],
+        "expected": false
+      }
+    ]
+  },
+  {
+    "id": 205,
+    "title": "Crafting: Make Sword",
+    "difficulty": "Medium",
+    "description": "Write a function try_craft(iron, wood) that returns True if iron >= 2 AND wood >= 1, otherwise False.",
+    "roles": {
+      "architect": "Logic: Check sufficient resources.",
+      "translator": "Syntax: return iron >= 2 and wood >= 1",
+      "debugger": "Check: Boolean AND."
     },
-    {
-      "id": 208,
-      "title": "FPS: Auto-Reload",
-      "difficulty": "Medium",
-      "description": "If ammo is exactly 0, call reload(). Else if (elif) ammo is less than 5, show 'Low Ammo' warning.",
-      "correct_syntax": "if ammo == 0:\n    reload()\nelif ammo < 5:\n    show_warning()",
-      "roles": {
-        "architect": "Logic Task: Multi-stage check. Priority 1: Empty? Priority 2: Low?",
-        "translator": "Syntax Task: if / elif structure.",
-        "debugger": "Check: '==' for zero check."
+    "starter_code": "def try_craft(iron, wood):\n    # Check resources\n    return False",
+    "solution_keywords": [
+      "and",
+      ">="
+    ],
+    "test_cases": [
+      {
+        "input": [
+          2,
+          1
+        ],
+        "expected": true
       },
-      "starter_code": "def check_ammo(ammo):\n    # Check levels\n    pass",
-      "solution_keywords": ["if", "==", "elif", "<"]
+      {
+        "input": [
+          1,
+          5
+        ],
+        "expected": false
+      }
+    ]
+  },
+  {
+    "id": 206,
+    "title": "Inventory: Backpack Limit",
+    "difficulty": "Medium",
+    "description": "Write a function check_capacity(items, max_slots) that returns True if len(items) >= max_slots, otherwise False.",
+    "roles": {
+      "architect": "Logic: Check if list length exceeds limit.",
+      "translator": "Syntax: return len(items) >= max_slots",
+      "debugger": "Check: List length function."
     },
-    {
-      "id": 209,
-      "title": "Race: Lap Counter",
-      "difficulty": "Medium",
-      "description": "The player crossed the line. Increment 'laps'. If 'laps' is now 3, trigger 'finish_race()'.",
-      "correct_syntax": "laps = laps + 1\nif laps == 3:\n    finish_race()",
-      "roles": {
-        "architect": "Logic Task: Sequential Logic. First add to the counter, THEN check if the limit is reached.",
-        "translator": "Syntax Task: Increment first. Then use 'if' check.",
-        "debugger": "Check: Order of operations."
+    "starter_code": "def check_capacity(items, max_slots):\n    # Check if full\n    return False",
+    "solution_keywords": [
+      "len",
+      ">="
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ],
+          3
+        ],
+        "expected": true
       },
-      "starter_code": "def cross_line(laps):\n    # Update and check\n    pass",
-      "solution_keywords": ["+", "if", "==", "3"]
+      {
+        "input": [
+          [
+            1
+          ],
+          5
+        ],
+        "expected": false
+      }
+    ]
+  },
+  {
+    "id": 207,
+    "title": "Social: Ban Hammer",
+    "difficulty": "Medium",
+    "description": "Write a function moderation_bot(report_count) that returns True if report_count > 10, otherwise False.",
+    "roles": {
+      "architect": "Logic: Check threshold.",
+      "translator": "Syntax: return report_count > 10",
+      "debugger": "Check: Greater than comparison."
     },
-    {
-      "id": 210,
-      "title": "Cards: Deck Builder",
-      "difficulty": "Medium",
-      "description": "We need to remove a card. If 'Ace' is in the 'hand' list, remove it using .remove().",
-      "correct_syntax": "if 'Ace' in hand:\n    hand.remove('Ace')",
-      "roles": {
-        "architect": "Logic Task: Membership Check. Verify if an item exists in the collection before trying to delete it.",
-        "translator": "Syntax Task: 'if value in list:'. Then use list.remove(value).",
-        "debugger": "Check: Use of 'in' keyword."
+    "starter_code": "def moderation_bot(report_count):\n    # Check reports\n    return False",
+    "solution_keywords": [
+      ">",
+      "10"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          11
+        ],
+        "expected": true
       },
-      "starter_code": "def play_card(hand):\n    # Remove Ace if held\n    pass",
-      "solution_keywords": ["in", ".remove", "'Ace'"]
+      {
+        "input": [
+          5
+        ],
+        "expected": false
+      }
+    ]
+  },
+  {
+    "id": 208,
+    "title": "FPS: Auto-Reload",
+    "difficulty": "Medium",
+    "description": "Write a function check_ammo(ammo) that returns 'Reload' if ammo is 0, 'Low' if ammo < 5, else 'OK'.",
+    "roles": {
+      "architect": "Logic: Multiple condition check.",
+      "translator": "Syntax: Use if/elif/else structure.",
+      "debugger": "Check: Logic flow order."
     },
-    {
-      "id": 211,
-      "title": "Login: Password Reset",
-      "difficulty": "Medium",
-      "description": "If 'email' is in 'database', send reset link. Else, print 'User not found'.",
-      "correct_syntax": "if email in database:\n    send_link()\nelse:\n    print('User not found')",
-      "roles": {
-        "architect": "Logic Task: Lookup logic. Check existence in a dataset.",
-        "translator": "Syntax Task: 'if x in y'. else print.",
-        "debugger": "Check: Quotes on string."
+    "starter_code": "def check_ammo(ammo):\n    # Check levels\n    return \"\"",
+    "solution_keywords": [
+      "if",
+      "elif",
+      "else"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          0
+        ],
+        "expected": "Reload"
       },
-      "starter_code": "def reset_pass(email, database):\n    # Verify user\n    pass",
-      "solution_keywords": ["in", "else", "print"]
+      {
+        "input": [
+          3
+        ],
+        "expected": "Low"
+      },
+      {
+        "input": [
+          10
+        ],
+        "expected": "OK"
+      }
+    ]
+  },
+  {
+    "id": 209,
+    "title": "Race: Lap Counter",
+    "difficulty": "Medium",
+    "description": "Write a function cross_line(laps) that increments laps by 1. If laps becomes 3, return 'Finish', else return 'Continue'.",
+    "roles": {
+      "architect": "Logic: Increment then check.",
+      "translator": "Syntax: laps += 1\n    if laps == 3...",
+      "debugger": "Check: Equality check (==)."
     },
-    {
-      "id": 212,
-      "title": "Puzzle: Sequence",
-      "difficulty": "Medium",
-      "description": "Slice the 'secret_code' to get the last 3 characters.",
-      "correct_syntax": "suffix = secret_code[-3:]",
-      "roles": {
-        "architect": "Logic Task: Negative Slicing. Get a portion of text relative to the END of the string.",
-        "translator": "Syntax Task: Use [-3:]. The negative index counts from the right.",
-        "debugger": "Check: Colon position."
+    "starter_code": "def cross_line(laps):\n    # Update and check\n    return \"\"",
+    "solution_keywords": [
+      "+",
+      "1",
+      "if",
+      "=="
+    ],
+    "test_cases": [
+      {
+        "input": [
+          2
+        ],
+        "expected": "Finish"
       },
-      "starter_code": "def decode(secret_code):\n    # Get last 3 chars\n    return suffix",
-      "solution_keywords": ["[-3:]", "secret_code"]
+      {
+        "input": [
+          1
+        ],
+        "expected": "Continue"
+      }
+    ]
+  },
+  {
+    "id": 210,
+    "title": "Cards: Deck Builder",
+    "difficulty": "Medium",
+    "description": "Write a function play_card(hand) that removes 'Ace' from the list if present, returning the modified list.",
+    "roles": {
+      "architect": "Logic: Check existence then remove.",
+      "translator": "Syntax: if 'Ace' in hand:\n        hand.remove('Ace')",
+      "debugger": "Check: .remove() method."
     },
-    {
-      "id": 213,
-      "title": "Shop: Discount",
-      "difficulty": "Medium",
-      "description": "Apply a 10% discount. Price equals price multiplied by 0.9.",
-      "correct_syntax": "price = price * 0.9",
-      "roles": {
-        "architect": "Logic Task: Float Math. Reduce value to 90% of original.",
-        "translator": "Syntax Task: Multiply by 0.9.",
-        "debugger": "Check: Float syntax."
+    "starter_code": "def play_card(hand):\n    # Remove Ace if held\n    return hand",
+    "solution_keywords": [
+      "in",
+      ".remove"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            "King",
+            "Ace"
+          ]
+        ],
+        "expected": [
+          "King"
+        ]
       },
-      "starter_code": "def apply_coupon(price):\n    # Discount\n    return price",
-      "solution_keywords": ["*", "0.9"]
+      {
+        "input": [
+          [
+            "Queen"
+          ]
+        ],
+        "expected": [
+          "Queen"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 211,
+    "title": "Login: Password Reset",
+    "difficulty": "Medium",
+    "description": "Write a function reset_pass(email, database) that returns 'Sent' if email is in database list, else 'Unknown'.",
+    "roles": {
+      "architect": "Logic: List search.",
+      "translator": "Syntax: return 'Sent' if email in database else 'Unknown'",
+      "debugger": "Check: 'in' operator."
     },
-    {
-      "id": 214,
-      "title": "Music: Playlist Loop",
-      "difficulty": "Medium",
-      "description": "We are at the end of the playlist. Set 'current_track_index' back to 0.",
-      "correct_syntax": "current_track_index = 0",
-      "roles": {
-        "architect": "Logic Task: Reset. Set the index tracker to the start position.",
-        "translator": "Syntax Task: Assign 0.",
-        "debugger": "Check: ="
+    "starter_code": "def reset_pass(email, database):\n    # Verify user\n    return \"\"",
+    "solution_keywords": [
+      "in",
+      "else"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "user@test.com",
+          [
+            "user@test.com",
+            "admin@test.com"
+          ]
+        ],
+        "expected": "Sent"
       },
-      "starter_code": "def loop_music():\n    # Reset index\n    return current_track_index",
-      "solution_keywords": ["=", "0"]
+      {
+        "input": [
+          "guest@test.com",
+          [
+            "admin@test.com"
+          ]
+        ],
+        "expected": "Unknown"
+      }
+    ]
+  },
+  {
+    "id": 212,
+    "title": "Puzzle: Sequence",
+    "difficulty": "Medium",
+    "description": "Write a function decode(secret_code) that returns the last 3 characters of the string.",
+    "roles": {
+      "architect": "Logic: String slicing from end.",
+      "translator": "Syntax: return secret_code[-3:]",
+      "debugger": "Check: Negative indexing."
     },
-    {
-      "id": 215,
-      "title": "Settings: Dark Mode",
-      "difficulty": "Medium",
-      "description": "If 'theme' is 'Light', set it to 'Dark'. Else set it to 'Light'.",
-      "correct_syntax": "if theme == 'Light':\n    theme = 'Dark'\nelse:\n    theme = 'Light'",
-      "roles": {
-        "architect": "Logic Task: Toggle State based on current value.",
-        "translator": "Syntax Task: if/else assignment.",
-        "debugger": "Check: Assignment vs Comparison."
+    "starter_code": "def decode(secret_code):\n    # Get last 3 chars\n    return \"\"",
+    "solution_keywords": [
+      "[-3:]"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "abcdefg"
+        ],
+        "expected": "efg"
       },
-      "starter_code": "def toggle_theme(theme):\n    # Swap themes\n    return theme",
-      "solution_keywords": ["if", "==", "else"]
-    }
-  ],
-  "Hard": [
-    {
-      "id": 301,
-      "title": "Turn-Based: Damage All",
-      "difficulty": "Hard",
-      "description": "The wizard cast Fireball! Iterate through the 'enemies' list and apply 50 damage to each 'enemy'.",
-      "correct_syntax": "for enemy in enemies:\n    enemy.take_damage(50)",
-      "roles": {
-        "architect": "Logic Task: Batch Processing. Perform the same function on every single item in the collection.",
-        "translator": "Syntax Task: 'for loop'. Call the method on the loop variable.",
-        "debugger": "Check: Did they loop 'enemies' but use 'enemy' inside?"
-      },
-      "starter_code": "def cast_fireball(enemies):\n    # Hit everyone\n    pass",
-      "solution_keywords": ["for", "in", "enemies", ".take_damage"]
+      {
+        "input": [
+          "12345"
+        ],
+        "expected": "345"
+      }
+    ]
+  },
+  {
+    "id": 213,
+    "title": "Shop: Discount",
+    "difficulty": "Medium",
+    "description": "Write a function apply_coupon(price) that returns price multiplied by 0.9.",
+    "roles": {
+      "architect": "Logic: Apply 10% off.",
+      "translator": "Syntax: return price * 0.9",
+      "debugger": "Check: Float multiplication."
     },
-    {
-      "id": 302,
-      "title": "Data: High Score",
-      "difficulty": "Hard",
-      "description": "Find the best player. Iterate through 'scores' list. If a score is higher than 'max_score', update 'max_score'.",
-      "correct_syntax": "for score in scores:\n    if score > max_score:\n        max_score = score",
-      "roles": {
-        "architect": "Logic Task: Finding a Maxiumum. Scan everything, keep track of the highest value seen so far.",
-        "translator": "Syntax Task: Loop, then 'if' check inside. Assign loop var to tracker.",
-        "debugger": "Check: Indentation levels."
+    "starter_code": "def apply_coupon(price):\n    # Discount\n    return 0",
+    "solution_keywords": [
+      "*",
+      "0.9"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          100
+        ],
+        "expected": 90.0
       },
-      "starter_code": "def find_winner(scores):\n    max_score = 0\n    # Scan scores\n    return max_score",
-      "solution_keywords": ["for", "if", ">", "="]
+      {
+        "input": [
+          50
+        ],
+        "expected": 45.0
+      }
+    ]
+  },
+  {
+    "id": 214,
+    "title": "Music: Playlist Loop",
+    "difficulty": "Medium",
+    "description": "Write a function loop_music() that simply returns 0 (resetting index).",
+    "roles": {
+      "architect": "Logic: Return 0.",
+      "translator": "Syntax: return 0",
+      "debugger": "Check: Return literal."
     },
-    {
-      "id": 303,
-      "title": "Grid: Map Movement",
-      "difficulty": "Hard",
-      "description": "We are moving on a 2D grid. We have a list of rows. We need to print every tile in the map to render it.",
-      "correct_syntax": "for row in map_grid:\n    for tile in row:\n        print(tile)",
-      "roles": {
-        "architect": "Logic Task: Nested Iteration. Loop through the rows, then loop through the items inside each row.",
-        "translator": "Syntax Task: Double 'for' loop. One inside the other.",
-        "debugger": "Check: Inner loop variable usage."
-      },
-      "starter_code": "def render_map(map_grid):\n    # Nested print\n    pass",
-      "solution_keywords": ["for", "in", "print"]
+    "starter_code": "def loop_music():\n    # Reset index\n    return -1",
+    "solution_keywords": [
+      "0"
+    ],
+    "test_cases": [
+      {
+        "input": [],
+        "expected": 0
+      }
+    ]
+  },
+  {
+    "id": 215,
+    "title": "Settings: Dark Mode",
+    "difficulty": "Medium",
+    "description": "Write a function toggle_theme(theme) that returns 'Dark' if input is 'Light', else 'Light'.",
+    "roles": {
+      "architect": "Logic: Swap string values.",
+      "translator": "Syntax: if theme == 'Light'...",
+      "debugger": "Check: Equality check."
     },
-    {
-      "id": 304,
-      "title": "AI: Pathfinding",
-      "difficulty": "Hard",
-      "description": "The enemy is chasing you. While the distance to player is greater than 1, call 'move_forward()'.",
-      "correct_syntax": "while distance > 1:\n    move_forward()",
-      "roles": {
-        "architect": "Logic Task: Conditional Loop. Keep doing it UNTIL the goal is met (distance is small).",
-        "translator": "Syntax Task: 'while' loop.",
-        "debugger": "Check: Logic condition."
+    "starter_code": "def toggle_theme(theme):\n    # Swap themes\n    return \"\"",
+    "solution_keywords": [
+      "if",
+      "==",
+      "else"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          "Light"
+        ],
+        "expected": "Dark"
       },
-      "starter_code": "def chase_player(distance):\n    # Move until close\n    pass",
-      "solution_keywords": ["while", ">", "1"]
+      {
+        "input": [
+          "Dark"
+        ],
+        "expected": "Light"
+      }
+    ]
+  },
+  {
+    "id": 302,
+    "title": "Data: High Score",
+    "difficulty": "Hard",
+    "description": "Write a function find_winner(scores) that returns the highest score in the list.",
+    "roles": {
+      "architect": "Logic: Find maximum value.",
+      "translator": "Syntax: return max(scores) or loop logic.",
+      "debugger": "Check: max() function or iteration."
     },
-    {
-      "id": 305,
-      "title": "System: Save Game",
-      "difficulty": "Hard",
-      "description": "Try to write to the save file. If it fails (PermissionError), print 'Save Failed'.",
-      "correct_syntax": "try:\n    write_save()\nexcept:\n    print('Save Failed')",
-      "roles": {
-        "architect": "Logic Task: Exception Handling. Plan for a crash.",
-        "translator": "Syntax Task: try/except block.",
-        "debugger": "Check: Colons."
+    "starter_code": "def find_winner(scores):\n    # Return highest\n    return 0",
+    "solution_keywords": [
+      "max",
+      "for"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            10,
+            50,
+            20
+          ]
+        ],
+        "expected": 50
       },
-      "starter_code": "def save_progress():\n    # Safe save\n    pass",
-      "solution_keywords": ["try", "except", "print"]
+      {
+        "input": [
+          [
+            5,
+            1,
+            9
+          ]
+        ],
+        "expected": 9
+      }
+    ]
+  },
+  {
+    "id": 306,
+    "title": "Inventory: Filter Junk",
+    "difficulty": "Hard",
+    "description": "Write a function sort_valuables(inventory) that returns a new list containing only items greater than 10. Inventory is a list of integers.",
+    "roles": {
+      "architect": "Logic: Filter list based on condition.",
+      "translator": "Syntax: [i for i in inventory if i > 10]",
+      "debugger": "Check: List comprehension."
     },
-    {
-      "id": 306,
-      "title": "Inventory: Filter Junk",
-      "difficulty": "Hard",
-      "description": "Create a new list 'valuable_items'. Copy items from 'inventory' ONLY if their value is > 10.",
-      "correct_syntax": "for item in inventory:\n    if item.value > 10:\n        valuable_items.append(item)",
-      "roles": {
-        "architect": "Logic Task: Filtering. Iterate source, check criteria, add to destination.",
-        "translator": "Syntax Task: Loop, If, Append.",
-        "debugger": "Check: Appending to the NEW list, not the old one."
+    "starter_code": "def sort_valuables(inventory):\n    # Filter list\n    return []",
+    "solution_keywords": [
+      "for",
+      "if",
+      ">"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            5,
+            15,
+            2,
+            20
+          ]
+        ],
+        "expected": [
+          15,
+          20
+        ]
       },
-      "starter_code": "def sort_valuables(inventory):\n    valuable_items = []\n    # Filter logic\n    return valuable_items",
-      "solution_keywords": ["for", "if", ".append"]
+      {
+        "input": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "expected": []
+      }
+    ]
+  },
+  {
+    "id": 313,
+    "title": "Race: Leaderboard",
+    "difficulty": "Hard",
+    "description": "Write a function rank_players(times) that returns the list sorted in ascending order.",
+    "roles": {
+      "architect": "Logic: Sort list.",
+      "translator": "Syntax: times.sort() or return sorted(times)",
+      "debugger": "Check: Sorting method."
     },
-    {
-      "id": 307,
-      "title": "Combat: Combo Breaker",
-      "difficulty": "Hard",
-      "description": "Count down from 5 to 1. If the player gets hit (player_hit is True) inside the loop, 'break' the combo immediately.",
-      "correct_syntax": "for i in range(5, 0, -1):\n    if player_hit:\n        break",
-      "roles": {
-        "architect": "Logic Task: Loop with Early Exit. Counting down, but stopping prematurely if an event occurs.",
-        "translator": "Syntax Task: range(5, 0, -1). 'break' keyword inside 'if'.",
-        "debugger": "Check: Range arguments for countdown."
-      },
-      "starter_code": "def combo_timer(player_hit):\n    # Countdown\n    pass",
-      "solution_keywords": ["range", "5", "-1", "break"]
+    "starter_code": "def rank_players(times):\n    # Sort times\n    return []",
+    "solution_keywords": [
+      "sort"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            10,
+            5,
+            8
+          ]
+        ],
+        "expected": [
+          5,
+          8,
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "id": 314,
+    "title": "Server: User Queue",
+    "difficulty": "Hard",
+    "description": "Write a function process_queue(queue) that removes and returns the first item (FIFO).",
+    "roles": {
+      "architect": "Logic: Remove from front of list.",
+      "translator": "Syntax: return queue.pop(0)",
+      "debugger": "Check: Pop index 0."
     },
-    {
-      "id": 308,
-      "title": "RPG: Stat Sheet",
-      "difficulty": "Hard",
-      "description": "We have a dictionary of stats (Str: 10, Dex: 5). Loop through it and print 'Stat: Value' for each entry.",
-      "correct_syntax": "for stat, val in stats.items():\n    print(stat, val)",
-      "roles": {
-        "architect": "Logic Task: Dictionary Iteration (Key-Value). We need access to both labels and numbers.",
-        "translator": "Syntax Task: use .items() method in the for loop.",
-        "debugger": "Check: unpacking two variables in the loop definition."
-      },
-      "starter_code": "def show_stats(stats):\n    # Print all stats\n    pass",
-      "solution_keywords": [".items()", "print", "for"]
-    },
-    {
-      "id": 309,
-      "title": "Puzzle: Find Key",
-      "difficulty": "Hard",
-      "description": "Search the 'room_items' list. If you find 'Gold Key', set 'found' to True and STOP searching (break).",
-      "correct_syntax": "for item in room_items:\n    if item == 'Gold Key':\n        found = True\n        break",
-      "roles": {
-        "architect": "Logic Task: Search & Stop. Linear scan. Once goal is met, stop wasting resources.",
-        "translator": "Syntax Task: Loop, if check, break.",
-        "debugger": "Check: Break indentation."
-      },
-      "starter_code": "def search_room(room_items):\n    found = False\n    # Search logic\n    return found",
-      "solution_keywords": ["for", "if", "break", "True"]
-    },
-    {
-      "id": 310,
-      "title": "Boss: Rage Mode",
-      "difficulty": "Hard",
-      "description": "The boss health is regenerating! While health < 1000, add 10 to health. But if it hits 1000, print 'Fully Healed'.",
-      "correct_syntax": "while health < 1000:\n    health += 10\nprint('Fully Healed')",
-      "roles": {
-        "architect": "Logic Task: While Loop logic. Increment value until cap is reached. Then perform final action.",
-        "translator": "Syntax Task: While loop. Print statement OUTSIDE the loop.",
-        "debugger": "Check: Print indentation (must be outside)."
-      },
-      "starter_code": "def boss_regen(health):\n    # Regen loop\n    pass",
-      "solution_keywords": ["while", "+=", "print"]
-    },
-    {
-      "id": 311,
-      "title": "Chat: Bot Reply",
-      "difficulty": "Hard",
-      "description": "Analyze message. If 'help' in message, reply 'Support'. Elif 'price' in message, reply 'Cost'. Else reply 'Unknown'.",
-      "correct_syntax": "if 'help' in msg:\n    return 'Support'\nelif 'price' in msg:\n    return 'Cost'\nelse:\n    return 'Unknown'",
-      "roles": {
-        "architect": "Logic Task: Keyword Detection (Branching). Check for substrings to determine response.",
-        "translator": "Syntax Task: if/elif/else chain with 'in' operator.",
-        "debugger": "Check: Logic flow."
-      },
-      "starter_code": "def bot_response(msg):\n    # Analyze text\n    pass",
-      "solution_keywords": ["if", "in", "elif", "else"]
-    },
-    {
-      "id": 312,
-      "title": "Match-3: Swap",
-      "difficulty": "Hard",
-      "description": "Swap two gems in a list. We need to use a temporary variable to hold gem_a while we overwrite it.",
-      "correct_syntax": "temp = gem_a\ngem_a = gem_b\ngem_b = temp",
-      "roles": {
-        "architect": "Logic Task: Variable Swap. The classic 'Three-Cup' shuffle logic to avoid losing data.",
-        "translator": "Syntax Task: Assign to temp, overwrite first, overwrite second with temp.",
-        "debugger": "Check: Circular assignment."
-      },
-      "starter_code": "def swap_gems(gem_a, gem_b):\n    # Swap logic\n    return gem_a, gem_b",
-      "solution_keywords": ["temp", "="]
-    },
-    {
-      "id": 313,
-      "title": "Race: Leaderboard",
-      "difficulty": "Hard",
-      "description": "We have a list of 'times'. Sort them in ascending order (fastest first) to rank players.",
-      "correct_syntax": "times.sort()",
-      "roles": {
-        "architect": "Logic Task: Sorting. Ordering a collection by value.",
-        "translator": "Syntax Task: .sort() method.",
-        "debugger": "Check: In-place modification."
-      },
-      "starter_code": "def rank_players(times):\n    # Sort times\n    return times",
-      "solution_keywords": [".sort()"]
-    },
-    {
-      "id": 314,
-      "title": "Server: User Queue",
-      "difficulty": "Hard",
-      "description": "Users are waiting. Remove the FIRST user from the 'queue' list to let them in (FIFO).",
-      "correct_syntax": "next_user = queue.pop(0)",
-      "roles": {
-        "architect": "Logic Task: Dequeue. Remove from the FRONT of the line.",
-        "translator": "Syntax Task: .pop(0). Index 0 is critical.",
-        "debugger": "Check: .pop() (ends) vs .pop(0) (starts)."
-      },
-      "starter_code": "def process_queue(queue):\n    # Remove first\n    return next_user",
-      "solution_keywords": [".pop(0)", "queue"]
-    },
-    {
-      "id": 315,
-      "title": "Physics: Collision 1D",
-      "difficulty": "Hard",
-      "description": "Check collision. If player_x is greater than enemy_x - 10 AND player_x is less than enemy_x + 10.",
-      "correct_syntax": "if player_x > enemy_x - 10 and player_x < enemy_x + 10:\n    collide()",
-      "roles": {
-        "architect": "Logic Task: Range Check. Is the point inside the bounding box (start, end)?",
-        "translator": "Syntax Task: Compound 'if' with 'and'. Math in comparison.",
-        "debugger": "Check: Greater than min, Less than max."
-      },
-      "starter_code": "def check_hit(player_x, enemy_x):\n    # Check overlap\n    pass",
-      "solution_keywords": ["if", "and", ">", "<"]
-    }
-  ]
-}
+    "starter_code": "def process_queue(queue):\n    # Remove first\n    return \"\"",
+    "solution_keywords": [
+      ".pop(0)"
+    ],
+    "test_cases": [
+      {
+        "input": [
+          [
+            "User1",
+            "User2"
+          ]
+        ],
+        "expected": "User1"
+      }
+    ]
+  }
+]
