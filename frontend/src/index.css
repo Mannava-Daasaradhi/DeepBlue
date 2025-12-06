@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* GLOBAL BODY STYLES */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a; /* Deep Blue Theme Background */
+  color: white;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  /* Allows vertical scroll for Problem List while preventing horizontal scroll */
+  overflow-x: hidden; 
+  
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- CUSTOM SCROLLBARS --- */
+/* Works on Chrome, Edge, and Safari */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155; 
+  border-radius: 5px;
+  border: 2px solid #0f172a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; 
+}
