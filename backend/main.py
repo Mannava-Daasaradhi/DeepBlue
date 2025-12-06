@@ -109,11 +109,17 @@ async def execute_code(request: CodeRequest):
                     # Flatten missions (Handles Dictionary or List structure)
                     all_missions = []
                     if isinstance(data, dict):
-                        for cat in data: all_missions.extend(data[cat])
-                    else:
+                        for cat in data: 
+                            # Extract missions from category list
+                            category_missions = data[cat] if isinstance(data[cat], list) else []
+                            for m in category_missions:
+                                # Ensure m is a dict before extending
+                                if isinstance(m, dict):
+                                    all_missions.append(m)
+                    elif isinstance(data, list):
                         all_missions = data
 
-                    mission = next((m for m in all_missions if m["id"] == request.mission_id), None)
+                    mission = next((m for m in all_missions if m.get("id") == request.mission_id), None)
 
                     if mission and "test_cases" in mission:
                         # Extract function name from code using Regex
@@ -196,9 +202,11 @@ def get_missions(is_premium: bool = False):
         all_missions = []
         if isinstance(data, dict):
             for category in data:
-                for m in data[category]:
-                    m['difficulty'] = category # Ensure difficulty label matches category
-                    all_missions.append(m)
+                items = data[category] if isinstance(data[category], list) else []
+                for m in items:
+                    if isinstance(m, dict):
+                        m['difficulty'] = category # Ensure difficulty label matches category
+                        all_missions.append(m)
         elif isinstance(data, list):
             all_missions = data
 

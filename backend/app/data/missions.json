@@ -1,6 +1,59 @@
 {
   "Linear Algebra": [
     {
+      "id": 120,
+      "title": "CR Decomp: Reconstruction",
+      "difficulty": "Medium",
+      "description": "Given Column matrix C and Row matrix R, reconstruct the original matrix A by calculating the dot product for a specific cell (row i of C * col j of R).",
+      "roles": {
+        "architect": "Logic: Multiply row i of C by column j of R (scalar logic for 1x1).",
+        "translator": "Syntax: return C[i] * R[j]",
+        "debugger": "Check: Indices."
+      },
+      "starter_code": "def reconstruct_cell(C, R, i, j):\n    # Rebuild A[i][j]\n    return 0",
+      "solution_keywords": [
+        "*",
+        "["
+      ],
+      "test_cases": [
+        {
+          "input": [[10, 20], [2, 4], 0, 1],
+          "expected": 40
+        },
+        {
+          "input": [[5], [3], 0, 0],
+          "expected": 15
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "title": "SVD: Diagonal Strength",
+      "difficulty": "Hard",
+      "description": "In SVD (Sigma matrix), we often filter noise. Write a function filter_singular(val, threshold) that returns val if val > threshold, else 0.",
+      "roles": {
+        "architect": "Logic: Thresholding function.",
+        "translator": "Syntax: return val if val > threshold else 0",
+        "debugger": "Check: Conditional logic."
+      },
+      "starter_code": "def filter_singular(val, threshold):\n    # Denoise\n    return 0",
+      "solution_keywords": [
+        "if",
+        "else",
+        ">"
+      ],
+      "test_cases": [
+        {
+          "input": [0.005, 0.1],
+          "expected": 0
+        },
+        {
+          "input": [5.2, 0.1],
+          "expected": 5.2
+        }
+      ]
+    },
+    {
       "id": 103,
       "title": "Racing: Nitro Boost",
       "difficulty": "Easy",
@@ -95,6 +148,31 @@
     }
   ],
   "Data Science": [
+    {
+      "id": 320,
+      "title": "PCA: Center Data",
+      "difficulty": "Medium",
+      "description": "The first step of PCA is centering data. Write a function center_point(x, mean) that returns x minus mean.",
+      "roles": {
+        "architect": "Logic: Subtract the mean from the data point.",
+        "translator": "Syntax: return x - mean",
+        "debugger": "Check: Subtraction."
+      },
+      "starter_code": "def center_point(x, mean):\n    # Zero-center\n    return 0",
+      "solution_keywords": [
+        "-"
+      ],
+      "test_cases": [
+        {
+          "input": [150, 100],
+          "expected": 50
+        },
+        {
+          "input": [10, 10],
+          "expected": 0
+        }
+      ]
+    },
     {
       "id": 302,
       "title": "Data: High Score",
@@ -248,6 +326,58 @@
     }
   ],
   "Machine Learning": [
+    {
+      "id": 650,
+      "title": "VAE: Reparameterize",
+      "difficulty": "Hard",
+      "description": "Implement the VAE 'Reparameterization Trick'. Returns mu + (epsilon * std).",
+      "roles": {
+        "architect": "Logic: Scale noise by std deviation and shift by mean.",
+        "translator": "Syntax: return mu + (epsilon * std)",
+        "debugger": "Check: Order of operations."
+      },
+      "starter_code": "def reparameterize(mu, std, epsilon):\n    # Latent sample\n    return 0",
+      "solution_keywords": [
+        "+",
+        "*"
+      ],
+      "test_cases": [
+        {
+          "input": [10, 2, 0.5],
+          "expected": 11.0
+        },
+        {
+          "input": [0, 1, -1],
+          "expected": -1
+        }
+      ]
+    },
+    {
+      "id": 651,
+      "title": "GenAI: Diffusion Noise",
+      "difficulty": "Medium",
+      "description": "Simulate a forward diffusion step. Write a function add_noise(img, noise, beta) that returns img + (noise * beta).",
+      "roles": {
+        "architect": "Logic: Add scaled noise to the image.",
+        "translator": "Syntax: return img + (noise * beta)",
+        "debugger": "Check: Multiplication then addition."
+      },
+      "starter_code": "def add_noise(img, noise, beta):\n    # Noising step\n    return 0",
+      "solution_keywords": [
+        "+",
+        "*"
+      ],
+      "test_cases": [
+        {
+          "input": [100, 10, 0.1],
+          "expected": 101.0
+        },
+        {
+          "input": [50, 5, 0.5],
+          "expected": 52.5
+        }
+      ]
+    },
     {
       "id": 204,
       "title": "Survival: Hunger Check",
