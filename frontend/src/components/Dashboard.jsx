@@ -20,9 +20,9 @@ const Sidebar = ({ isPremium, togglePremium }) => (
   </div>
 );
 
-const Dashboard = () => {
+const Dashboard = ({ initialCode, onBack}) => {
   // Default code snippet (Loop logic)
-  const [code, setCode] = useState(`def example_loop():\n    for t in range(10, 0, -1):\n        if t < 5:\n            print(t)`);
+  const [code, setCode] = useState(initialCode||`def example_loop():\n    for t in range(10, 0, -1):\n        if t < 5:\n            print(t)`);
   const [visualData, setVisualData] = useState(null);
   const [aiFeedback, setAiFeedback] = useState("Ready to analyze...");
   const [loading, setLoading] = useState(false);
