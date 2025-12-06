@@ -8,3 +8,5 @@ langchain-google-genai
 langchain-community
 passlib[bcrypt]
 bcrypt==3.2.0
+sqlalchemy>=2.0.0
+databases[sqlite]>=0.7.0

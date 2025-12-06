@@ -6,7 +6,7 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
-    # Added is_premium flag to track subscription status
+    hashed_password = Column(String) # This is the missing column causing your error
     is_premium = Column(Boolean, default=False)
     progress = relationship("UserProgress", back_populates="user")
 
