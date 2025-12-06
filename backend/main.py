@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import json
 import os
+import sys
 import io
 import contextlib
 import traceback
@@ -13,11 +14,11 @@ import re
 from app.engine.rag_agent import ai_tutor
 from app.engine.ast_parser import parse_code_to_3d
 
-# --- DATABASE IMPORTS ---
+# --- [YOUR ADDITION] DATABASE IMPORTS ---
 from app.database import engine, get_db
 from app import models
 
-# Initialize Database Tables
+# [YOUR ADDITION] Initialize Database
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
@@ -37,34 +38,30 @@ class CodeRequest(BaseModel):
     session_id: str = "default_user"
     is_premium: bool = False
     mission_id: int = None
-    user_id: int = None # Added for saving progress
+    user_id: int = None 
 
 @app.get("/")
 def read_root():
     return {"status": "Deep Blue API is running 🔵"}
 
-# --- DATABASE ENDPOINTS ---
+# --- [YOUR ADDITION] DATABASE ENDPOINTS ---
 
 @app.post("/register")
 def register_user(username: str, db: Session = Depends(get_db)):
-    """
-    Registers a new user or logs in an existing one.
-    """
+    # Simple check-in logic
     existing = db.query(models.User).filter(models.User.username == username).first()
     if existing:
-        return {"message": "User found", "user_id": existing.id, "is_premium": existing.is_premium}
+        return {"message": "User found", "user_id": existing.id}
     
     new_user = models.User(username=username)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return {"message": "Welcome Commander", "user_id": new_user.id, "is_premium": False}
+    return {"message": "Welcome Commander", "user_id": new_user.id}
 
 @app.post("/save-progress")
 def save_progress(user_id: int, mission_id: int, code: str, db: Session = Depends(get_db)):
-    """
-    Saves completed mission code to the database.
-    """
+    # Save the winning code
     existing = db.query(models.UserProgress).filter_by(user_id=user_id, mission_id=mission_id).first()
     
     if existing:
@@ -72,17 +69,15 @@ def save_progress(user_id: int, mission_id: int, code: str, db: Session = Depend
         existing.is_completed = True
     else:
         progress = models.UserProgress(
-            user_id=user_id, 
-            mission_id=mission_id, 
-            is_completed=True, 
-            code_solution=code
+            user_id=user_id, mission_id=mission_id, 
+            is_completed=True, code_solution=code
         )
         db.add(progress)
     
     db.commit()
     return {"status": "Mission Accomplished & Saved 💾"}
 
-# --- EXECUTION & TEST ENGINE ---
+# --- EXECUTION & TEST ENGINE (Leader's Logic Preserved) ---
 
 @app.post("/execute")
 async def execute_code(request: CodeRequest):
@@ -98,25 +93,28 @@ async def execute_code(request: CodeRequest):
             safe_globals = {"__builtins__": __builtins__}
             exec(request.code, safe_globals)
             
-            # 2. Run Test Cases (If mission_id is present)
+            # 2. Run Test Cases (Leader's feature)
             test_results = []
             if request.mission_id:
                 try:
-                    # Load missions safely
-                    with open(os.path.join("app", "data", "missions.json"), "r") as f:
+                    file_path = os.path.join("app", "data", "missions.json")
+                    with open(file_path, "r") as f:
                         data = json.load(f)
                     
-                    # Flatten missions (Handles Dictionary or List structure)
+                    # Flatten missions
                     all_missions = []
                     if isinstance(data, dict):
-                        for cat in data: all_missions.extend(data[cat])
+                        for cat in data: 
+                            # Handle list vs dict inside categories
+                            items = data[cat] if isinstance(data[cat], list) else []
+                            all_missions.extend(items)
                     else:
                         all_missions = data
 
                     mission = next((m for m in all_missions if m["id"] == request.mission_id), None)
 
                     if mission and "test_cases" in mission:
-                        # Extract function name from code using Regex
+                        # Extract function name
                         match = re.search(r"def\s+(\w+)\(", request.code)
                         if match:
                             func_name = match.group(1)
@@ -127,7 +125,6 @@ async def execute_code(request: CodeRequest):
                                     inputs = case["input"]
                                     expected = case["expected"]
                                     try:
-                                        # Run user function with test inputs
                                         result = user_func(*inputs)
                                         passed = result == expected
                                         test_results.append({
@@ -154,12 +151,12 @@ async def execute_code(request: CodeRequest):
     finally:
         output_buffer.close()
 
-# --- VISUALIZATION & AI ENGINE ---
+# --- VISUALIZATION & AI ENGINE (Leader's Logic Preserved) ---
 
 @app.post("/analyze")
 async def analyze_code(request: CodeRequest):
     try:
-        # Premium Gate for 3D
+        # Premium Gate
         if request.is_premium:
             visual_data = parse_code_to_3d(request.code)
         else:
@@ -192,17 +189,16 @@ def get_missions(is_premium: bool = False):
         with open(file_path, "r") as f:
             data = json.load(f)
         
-        # Flatten Dictionary Structure for Frontend
         all_missions = []
         if isinstance(data, dict):
             for category in data:
-                for m in data[category]:
-                    m['difficulty'] = category # Ensure difficulty label matches category
+                items = data[category] if isinstance(data[category], list) else []
+                for m in items:
+                    m['difficulty'] = category 
                     all_missions.append(m)
         elif isinstance(data, list):
             all_missions = data
 
-        # Filter Logic
         if is_premium:
             return all_missions 
         else:

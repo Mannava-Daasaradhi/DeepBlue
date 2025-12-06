@@ -17,96 +17,110 @@ const Sidebar = ({ isPremium, togglePremium }) => (
   </div>
 );
 
-const Dashboard = ({ initialCode, onBack }) => {
-  // Initial code state
-  const [code, setCode] = useState(initialCode || `def example_loop():\n    for t in range(10, 0, -1):\n        if t < 5:\n            print(t)`);
+// [YOUR CHANGE] Destructure activeMission
+const Dashboard = ({ activeMission, onBack }) => {
+  // Use activeMission starter code if available
+  const [code, setCode] = useState(activeMission?.starter_code || `def example_loop():\n    for t in range(10, 0, -1):\n        if t < 5:\n            print(t)`);
   
   const [visualData, setVisualData] = useState(null);
   const [aiFeedback, setAiFeedback] = useState("Ready to analyze...");
-  const [output, setOutput] = useState(""); // Terminal Output State
+  const [output, setOutput] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [isPremium, setIsPremium] = useState(false); 
+  const [userId] = useState(1); // Mock User ID
 
   const textareaRef = useRef(null);
 
-  // --- AUTO INDENTATION LOGIC ---
+  // --- AUTO INDENTATION (Leader's Logic Preserved) ---
   const handleKeyDown = (e) => {
     if (e.key === 'Tab') {
       e.preventDefault();
       const start = e.target.selectionStart;
       const end = e.target.selectionEnd;
-      // Insert 4 spaces
       const newCode = code.substring(0, start) + "    " + code.substring(end);
       setCode(newCode);
-      // Move cursor
-      setTimeout(() => {
-        e.target.selectionStart = e.target.selectionEnd = start + 4;
-      }, 0);
+      setTimeout(() => { e.target.selectionStart = e.target.selectionEnd = start + 4; }, 0);
     }
-    
     if (e.key === 'Enter') {
         e.preventDefault();
         const start = e.target.selectionStart;
         const end = e.target.selectionEnd;
-        
-        // Find current line
         const currentLineStart = code.lastIndexOf('\n', start - 1) + 1;
         const currentLine = code.substring(currentLineStart, start);
-        
-        // Calculate indentation of current line
         const currentIndent = currentLine.match(/^\s*/)[0];
-        
-        // Check if line ends with colon (needs extra indent)
-        let extraIndent = "";
-        if (currentLine.trim().endsWith(':')) {
-            extraIndent = "    ";
-        }
-        
+        let extraIndent = currentLine.trim().endsWith(':') ? "    " : "";
         const newCode = code.substring(0, start) + '\n' + currentIndent + extraIndent + code.substring(end);
         setCode(newCode);
-        
-        // Move cursor
-        setTimeout(() => {
-            e.target.selectionStart = e.target.selectionEnd = start + 1 + currentIndent.length + extraIndent.length;
-        }, 0);
+        setTimeout(() => { e.target.selectionStart = e.target.selectionEnd = start + 1 + currentIndent.length + extraIndent.length; }, 0);
     }
   };
 
-  // --- RUN CODE (Connects to /execute) ---
+  // --- RUN CODE (Leader's Logic + Your mission_id wiring) ---
   const handleRun = async () => {
       setLoading(true);
       setOutput("Running...");
       try {
-          const response = await axios.post('http://127.0.0.1:8000/execute', { code });
-          setOutput(response.data.output || "No output returned.");
+          // Pass mission_id so backend runs tests
+          const response = await axios.post('http://127.0.0.1:8000/execute', { 
+              code, 
+              mission_id: activeMission?.id 
+          });
+          
+          let resultText = response.data.output || "";
+          
+          // Display Test Results if returned
+          if (response.data.test_results && response.data.test_results.length > 0) {
+              const tests = response.data.test_results;
+              const passed = tests.filter(t => t.passed).length;
+              resultText += `\n\n--- TEST RESULTS: ${passed}/${tests.length} PASS ---\n`;
+              tests.forEach(t => {
+                  resultText += `[${t.passed ? '✔' : '✖'}] Test ${t.id}: ${t.passed ? 'Passed' : `Expected ${t.expected}, Got ${t.actual}`}\n`;
+              });
+          }
+          setOutput(resultText);
       } catch (error) {
           setOutput("Error: Could not execute code. Is the backend running?");
       }
       setLoading(false);
   };
 
-  // --- ANALYZE (Connects to /analyze for 3D) ---
+  // --- [YOUR ADDITION] SAVE PROGRESS ---
+  const handleSave = async () => {
+      if (!activeMission) {
+          alert("Select a mission from the menu first!");
+          return;
+      }
+      try {
+          await axios.post('http://127.0.0.1:8000/save-progress', null, {
+              params: {
+                  user_id: userId,
+                  mission_id: activeMission.id,
+                  code: code
+              }
+          });
+          alert("Progress Saved to Database! 💾");
+      } catch (error) {
+          alert("Failed to save. Is backend running?");
+      }
+  };
+
+  // --- ANALYZE (Leader's Logic Preserved) ---
   const handleAnalyze = async () => {
     setLoading(true);
     setAiFeedback("Deep Blue is thinking...");
     setVisualData(null);
-    
     try {
       const response = await axios.post('http://127.0.0.1:8000/analyze', {
         code: code,
-        user_input: "Analyze this logic",
+        user_input: activeMission ? `I am solving mission: ${activeMission.title}` : "Analyze this logic",
         is_premium: isPremium 
       });
 
       setVisualData(response.data.visual_data);
       setAiFeedback(response.data.ai_feedback || "Analysis complete.");
       
-      if (response.data.haptic_feedback && navigator.vibrate) {
-         navigator.vibrate(200); 
-      }
-    } catch (error) {
-      setAiFeedback("Error connecting to Deep Blue backend.");
-    }
+      if (response.data.haptic_feedback && navigator.vibrate) navigator.vibrate(200); 
+    } catch (error) { setAiFeedback("Error connecting to Deep Blue backend."); }
     setLoading(false);
   };
 
@@ -115,27 +129,26 @@ const Dashboard = ({ initialCode, onBack }) => {
       <Sidebar isPremium={isPremium} togglePremium={() => setIsPremium(!isPremium)} />
 
       <div className="flex flex-1">
-        
-        {/* LEFT: Editor & Terminal */}
         <div className="flex-1 flex flex-col border-r border-slate-700">
-          
-          {/* Code Editor Area (60%) */}
           <div className="flex-grow p-4 flex flex-col bg-slate-900">
             <div className="flex justify-between items-center mb-2">
                 <div className="flex items-center gap-4">
-                    {/* --- BACK BUTTON IMPLEMENTATION --- */}
                     {onBack && (
-                        <button 
-                            onClick={onBack} 
-                            className="group flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all"
-                            title="Back to Missions"
-                        >
+                        <button onClick={onBack} className="group flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all" title="Back to Missions">
                             <span className="text-lg transform group-hover:-translate-x-0.5 transition-transform">←</span>
                         </button>
                     )}
-                    <h2 className="text-xl font-bold text-blue-400">Deep Blue Editor</h2>
+                    <h2 className="text-xl font-bold text-blue-400">
+                        {activeMission ? activeMission.title : "Deep Blue Editor"}
+                    </h2>
                 </div>
                 <div className="flex gap-2">
+                    {/* [YOUR ADDITION] SAVE BUTTON */}
+                    {activeMission && (
+                        <button onClick={handleSave} className="bg-slate-700 hover:bg-slate-600 text-white text-sm font-bold py-2 px-4 rounded transition flex items-center gap-2" title="Save to Database">
+                            <span>💾</span>
+                        </button>
+                    )}
                     <button onClick={handleRun} className="bg-green-600 hover:bg-green-500 text-white text-sm font-bold py-2 px-4 rounded transition shadow-lg hover:shadow-green-500/20 flex items-center gap-2">
                         <span>▶</span> Run
                     </button>
@@ -151,11 +164,8 @@ const Dashboard = ({ initialCode, onBack }) => {
                 onChange={(e) => setCode(e.target.value)}
                 onKeyDown={handleKeyDown}
                 spellCheck="false"
-                placeholder="Type your Python code here..."
             />
           </div>
-
-          {/* Terminal Area (30%) */}
           <div className="h-1/3 bg-black p-4 border-t border-slate-700 font-mono text-sm overflow-auto shadow-inner">
             <div className="text-slate-500 mb-2 text-xs uppercase tracking-wider font-bold flex justify-between">
                 <span>Terminal Output</span>
@@ -165,7 +175,6 @@ const Dashboard = ({ initialCode, onBack }) => {
           </div>
         </div>
 
-        {/* RIGHT: Visuals & AI */}
         <div className="flex-1 flex flex-col">
           <div className="h-2/3 bg-black relative border-b border-slate-700 overflow-hidden">
             {!isPremium && (
@@ -188,11 +197,8 @@ const Dashboard = ({ initialCode, onBack }) => {
               </div>
             )}
           </div>
-
           <div className="h-1/3 p-6 bg-slate-900 overflow-auto">
-            <h3 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2">
-                <span>🧠</span> Socratic AI
-            </h3>
+            <h3 className="text-lg font-bold text-green-400 mb-3 flex items-center gap-2"><span>🧠</span> Socratic AI</h3>
             <div className="bg-slate-800/50 p-4 rounded-lg border border-slate-700/50 shadow-sm">
                 <p className="text-slate-300 whitespace-pre-wrap leading-relaxed font-medium">{aiFeedback}</p>
             </div>
